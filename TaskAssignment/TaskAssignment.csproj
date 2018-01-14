@@ -139,11 +139,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Persistence\MySQL\Assign.cs" />
-    <Compile Include="Persistence\MySQL\Member.cs" />
-    <Compile Include="Persistence\MySQL\Task.cs" />
-    <Compile Include="Persistence\MySQL\TaskAssignmentModel.cs" />
-    <Compile Include="Persistence\MySQL\TaskType.cs" />
     <Compile Include="Persistence\SQLite\Assign.cs" />
     <Compile Include="Persistence\SQLite\Member.cs" />
     <Compile Include="Persistence\SQLite\Task.cs" />
