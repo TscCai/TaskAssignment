@@ -15,7 +15,7 @@ namespace TaskAssignment.Controllers
         {
             var ctx = new TaskAssignmentModel();
             IQueryable<Task> model = ctx.Tasks.Where(t=>t.Date.Month == 1);
-
+            
             return View(model);
         }
     }
