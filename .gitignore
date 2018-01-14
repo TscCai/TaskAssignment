@@ -286,3 +286,5 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/TaskAssignment/TaskAssignment/Scripts
+/TaskAssignment/App_Data/TasAssignment.db
