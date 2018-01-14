@@ -1,6 +1,6 @@
 // Code may be different between EF6-SQLite and EF6-MySQL
 // Use compiler directive to control different dialect
-#if SQLITE
+#if MYSQL
 namespace TaskAssignment.Persistence
 {
     using System;
@@ -9,7 +9,7 @@ namespace TaskAssignment.Persistence
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("TaskType")]
+    [Table("taskassignment.tasktype")]
     public partial class TaskType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -18,10 +18,10 @@ namespace TaskAssignment.Persistence
             Tasks = new HashSet<Task>();
         }
 
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        [StringLength(2147483647)]
+        [StringLength(10)]
         public string TypeName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
