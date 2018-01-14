@@ -1,0 +1,54 @@
+﻿@model IEnumerable<TaskAssignment.Persistence.Task>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Index</title>
+</head>
+<body>
+	<p>
+		@Html.ActionLink("Create New", "Create")
+	</p>
+	<table class="table">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model =>model.Content)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Date)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TaskType.TypeName)
+			</th>
+			<th>成员</th>
+		</tr>
+
+		@foreach (var item in Model) {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Content)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Date, "MMddFormater")
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.TaskType.TypeName)
+				</td>
+				<td>
+					@foreach (var ass in item.Assigns.Where(ta => ta.TaskId == item.Id)) {
+						@Html.DisplayFor(modelItem => ass.Member.Name)<span>|</span>
+					}
+				</td>
+			</tr>
+		}
+
+	</table>
+</body>
+</html>
+
