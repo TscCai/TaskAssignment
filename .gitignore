@@ -288,3 +288,6 @@ __pycache__/
 *.xsd.cs
 /TaskAssignment/TaskAssignment/Scripts
 /TaskAssignment/App_Data/TasAssignment.db
+/TaskAssignment/plugins
+/TaskAssignment/dist
+/TaskAssignment/bower_components
