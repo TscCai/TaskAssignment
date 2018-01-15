@@ -287,3 +287,6 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 /TaskAssignment/App_Data/TasAssignment.db
+/TaskAssignment/plugins
+/TaskAssignment/dist
+/TaskAssignment/bower_components
