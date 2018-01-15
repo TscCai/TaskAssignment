@@ -11,11 +11,14 @@ namespace TaskAssignment.Controllers
     public class HomeController : Controller
     {
         // GET: Home
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
+            return View();
+        }
+
+        public ActionResult Temp() {
             var ctx = new TaskAssignmentModel();
-            IQueryable<Task> model = ctx.Tasks.Where(t=>t.Date.Month == 1);
-            
+            IQueryable<Task> model = ctx.Tasks.Where(t => t.Date.Month == 1);
+
             return View(model);
         }
     }
