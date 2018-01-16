@@ -7,6 +7,8 @@
     <title>@ViewBag.Title</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @Styles.Render("~/dependency/css")
+    @Styles.Render("~/plugins/css")
     @Styles.Render("~/AdminLTE/css")
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -488,10 +490,10 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs" style="font-size:50%">
-                <b>Powerd by</b> AdminLTE &amp; <a href="https://adminlte.io/">Almsaeed Studio</a><br/>
+                <b>Powered by</b> <a href="https://github.com/almasaeed2010/AdminLTE">AdminLTE</a> &amp; <a href="https://adminlte.io/">Almsaeed Studio</a><br/>
                 <b>Version</b> 0.1
             </div>
-            <div><strong>Copyright &copy; 2018-@DateTime.Now.Year <a href="#">TaskAssignment</a>.</strong> All rights reserved.</div>
+            <div><strong>Copyright &copy; 2018-@DateTime.Now.Year <a href="https://github.com/TscCai/TaskAssignment">TscCai</a></strong> All rights reserved.</div>
             
         </footer>
         <!-- Control Sidebar -->
@@ -664,6 +666,8 @@
         immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
         </div>
+    @Scripts.Render("~/dependency/js")
+    @Scripts.Render("~/plugins/js")
     @Scripts.Render("~/AdminLTE/js")
     <script>$.widget.bridge('uibutton', $.ui.button);</script>
     @Scripts.Render("~/AdminLTE/demo")

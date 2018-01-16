@@ -9,68 +9,97 @@ namespace TaskAssignment
         public static void RegisterBundles(BundleCollection bundles) {
             // Clear all default settings, make js follow the given order
             bundles.ResetAll();
+         
+            #region JS bundle: ~/dependency/js
+            bundles.Add(new ScriptBundle("~/dependency/js").Include(
+                    // jQuery 3
+                    "~/Content/dependency/js/jquery.js",
+                    // Bootstrap 3.3.7
+                    "~/Content/dependency/js/bootstrap.min.js"
+            ));
+            #endregion
+
+            #region JS bundle: ~/plugins/js
+            bundles.Add(new ScriptBundle("~/plugins/js").Include(
+                // JQuery UI
+                "~/Content/plugins/jquery-ui/jquery-ui.js",
+                // JQuery Knob Chart
+                "~/Content/plugins/jquery-knob/jquery.knob.min.js",
+                // FastClick
+                "~/Content/plugins/fastclick/fastclick.js",
+                // Sparkline
+                "~/Content/plugins/jquery-sparkline/jquery.sparkline.min.js",
+                // SlimScroll
+                "~/Content/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+
+                // Morris Chart
+                "~/Content/plugins/raphael/raphael.min.js",
+                "~/Content/plugins/morris.js/morris.min.js",
+                // Date range picker
+                "~/Content/plugins/moment/moment.min.js",
+                "~/Content/plugins/bootstrap-daterangepicker/daterangepicker.js",
+                
+                // Date picker
+                "~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js",
+                "~/Content/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js",
+
+                // Bootstrap WYSIHML5
+                "~/Content/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js",
+                // jvectormap
+                "~/Content/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js",
+                "~/Content/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"
+
+            ));
+            #endregion
 
             #region JS bundle: ~/AdminLTE/js
             bundles.Add(new ScriptBundle("~/AdminLTE/js").Include(
-                      // jQuery 3 and JQuery UI 1.11.4
-                      "~/bower_components/jquery/dist/jquery.min.js",
-                      "~/bower_components/jquery-ui/jquery-ui.min.js",
-                      // Bootstrap 3.3.7
-                      "~/bower_components/bootstrap/dist/js/bootstrap.min.js",
-                      // FastClick
-                      "~/bower_components/fastclick/lib/fastclick.js",
-                      // AdminLTE App
-                      "~/dist/js/adminlte.min.js",
-                      // Bootstrap WYSIHML5
-                      "~/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js",
-                      // Sparkline
-                      "~/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js",
-                      // jvectormap
-                      "~/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js",
-                      "~/plugins/jvectormap/jquery-jvectormap-world-mill-en.js",
-                      // SlimScroll
-                      "~/bower_components/jquery-slimscroll/jquery.slimscroll.min.js",
-                      // JQuery Knob Chart
-                      "~/bower_components/jquery-knob/dist/jquery.knob.min.js",
-                      // Morris Chart
-                      "~/bower_components/raphael/raphael.min.js",
-                      "~/bower_components/morris.js/morris.min.js",
-                      // Date range picker
-                      "~/bower_components/moment/min/moment.min.js",
-                      "~/bower_components/bootstrap-daterangepicker/daterangepicker.js",
-                      // Date picker
-                      "~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"
-                ));
+                // AdminLTE App
+                "~/Content/AdminLTE/js/adminlte.min.js"
+            ));
             #endregion
 
-            // JS boundle for demo
+            #region JS boundle: ~/AdminLTE/demo
             bundles.Add(new ScriptBundle("~/AdminLTE/demo").Include(
-                    "~/dist/js/pages/dashboard.js",
-                    "~/dist/js/demo.js"
-                ));
+                "~/Content/AdminLTE/js/pages/dashboard.js",
+                "~/Content/AdminLTE/js/demo.js"
+            ));
+            #endregion
 
-            #region Style Bundle: ~/AdminLTE/css
+            #region Style bundle: ~/dependency/css
+            bundles.Add(new StyleBundle("~/dependency/css").Include(
+                // Bootstrap 3.3.7
+                "~/Content/dependency/css/bootstrap.min.css",
+                // Font-Awesome
+                "~/Content/dependency/css/font-awesome.min.css",
+                // Ion icons
+                "~/Content/dependency/css/ionicons.min.css"
+            ));
+            #endregion
+
+            #region Style bundle: ~/plugins/css
+            bundles.Add(new StyleBundle("~/plugins/css").Include(
+
+                // Jvctormap
+                "~/Content/plugins/jvectormap/jquery-jvectormap.css",
+                // Morris chart
+                "~/Content/plugins/morris.js/morris.css",
+                // Date picker
+                "~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css",
+                // Date range picker
+                "~/Content/plugins/bootstrap-daterangepicker/daterangepicker.css",
+
+                // bootstrap wysihtml5 - text editor
+                "~/Content/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"
+            ));
+            #endregion
+
+            #region Style bundle: ~/AdminLTE/css
             bundles.Add(new StyleBundle("~/AdminLTE/css").Include(
-                      // Bootstrap 3.3.7
-                      "~/bower_components/bootstrap/dist/css/bootstrap.min.css",
-                      // Font-Awesome
-                      "~/bower_components/font-awesome/css/font-awesome.min.css",
-                      // Ion icons
-                      "~/bower_components/Ionicons/css/ionicons.min.css",
-                      // Jvctormap
-                      "~/bower_components/jvectormap/jquery-jvectormap.css",
-                      // AdminLTE theme and skin
-                      "~/dist/css/AdminLTE.min.css",
-                      "~/dist/css/skins/_all-skins.min.css",
-                      // Morris chart
-                      "~/bower_components/morris.js/morris.css",
-                      // Date picker
-                      "~/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css",
-                      // Date range picker
-                      "~/bower_components/bootstrap-daterangepicker/daterangepicker.css",
-                      // bootstrap wysihtml5 - text editor
-                      "~/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"
-                  ));
+                // AdminLTE theme and skin
+                "~/Content/AdminLTE/css/AdminLTE.min.css",
+                "~/Content/AdminLTE/css/skins/_all-skins.min.css"
+            ));
             #endregion
         }
     }
