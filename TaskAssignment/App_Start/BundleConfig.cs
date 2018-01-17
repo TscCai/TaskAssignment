@@ -22,7 +22,7 @@ namespace TaskAssignment
             #region JS bundle: ~/plugins/js
             bundles.Add(new ScriptBundle("~/plugins/js").Include(
                 // JQuery UI
-                "~/Content/plugins/jquery-ui/jquery-ui.js",
+                "~/Content/plugins/jquery-ui/jquery-ui.min.js",
                 // JQuery Knob Chart
                 "~/Content/plugins/jquery-knob/jquery.knob.min.js",
                 // FastClick
