@@ -20,11 +20,13 @@ namespace TaskAssignment.Persistence
         public long Id { get; set; }
 
         [Required]
-        [StringLength(2147483647)]
+        [StringLength(255)]
         public string Content { get; set; }
 
+        [Required]
         public DateTime Date { get; set; }
 
+        [Required]
         public long TypeId { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

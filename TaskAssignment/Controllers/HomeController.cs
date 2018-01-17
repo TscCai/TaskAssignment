@@ -15,10 +15,18 @@ namespace TaskAssignment.Controllers
             return View();
         }
 
+        public ActionResult Index2() {
+            return View();
+        }
+
         public ActionResult Temp() {
             var ctx = new TaskAssignmentModel();
-            IQueryable<Task> model = ctx.Tasks.Where(t => t.Date.Month == 1);
 
+            // All works in Jan.
+            IQueryable<Task> model = ctx.Tasks.Where(t => t.Date.Month == 1);
+            
+            // Works that haven't been assigned
+            //IQueryable<Task> model = ctx.Tasks.Where(t => t.Assigns.Count == 0);
             return View(model);
         }
     }
