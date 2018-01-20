@@ -1,19 +1,22 @@
 // Code may be different between EF6-SQLite and EF6-MySQL
 // Use compiler directive to control different dialect
 #if SQLITE
-namespace TaskAssignment.Persistence {
+namespace TaskAssignment.Persistence
+{
     using System;
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class TaskAssignmentModel : DbContext {
+    public partial class TaskAssignmentModel : DbContext
+    {
         public TaskAssignmentModel()
             : base("name=TaskAssignmentModel") {
         }
 
         public virtual DbSet<Assign> Assigns { get; set; }
         public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<TaskCondition> TaskConditions { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TaskType> TaskTypes { get; set; }
 
@@ -22,6 +25,11 @@ namespace TaskAssignment.Persistence {
                 .HasMany(e => e.Assigns)
                 .WithRequired(e => e.Member)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TaskCondition>()
+                .HasMany(e => e.Tasks)
+                .WithOptional(e => e.TaskCondition)
+                .HasForeignKey(e => e.ConditionId);
 
             modelBuilder.Entity<Task>()
                 .HasMany(e => e.Assigns)

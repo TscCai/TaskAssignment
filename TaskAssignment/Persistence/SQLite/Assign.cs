@@ -12,13 +12,10 @@ namespace TaskAssignment.Persistence
     [Table("Assign")]
     public partial class Assign
     {
-        [Required]
         public long Id { get; set; }
 
-        [Required]
         public long TaskId { get; set; }
 
-        [Required]
         public long MemberId { get; set; }
 
         public virtual Member Member { get; set; }

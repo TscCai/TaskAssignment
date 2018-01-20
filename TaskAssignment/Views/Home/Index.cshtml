@@ -58,12 +58,151 @@
     <!-- /.row -->
     <!-- Main row -->
     <div class="row">
-        <div class="col-xs-6">
-            <div class="small-box bg-gray"><div class="inner">
-    <h3>44<sup style="font-size:20px"> 次</sup></h3>
-    <p>处缺</p>
-</div></div>
-        </div>
+        <!-- Left Col -->
+        <section class="col-lg-7 connectedSortable">
+            <div class="row">
+                <!-- Custom tabs (Charts with tabs)-->
+                <!-- TO DO List -->
+                <div class="col-lg-6">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <i class="ion ion-clipboard"></i>
+                            <h3 class="box-title">待安排工作</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+                            <ol class="todo-list">
+                                <li>
+                                    <!-- drag handle -->
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+
+                                    <!-- todo text -->
+                                    <span class="text">Work 1</span>
+                                    <!-- Emphasis label -->
+                                    <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 天</small>
+                                    <!-- General tools such as edit or delete-->
+                                    <div class="tools">
+                                        <i class="fa fa-edit"></i>
+                                        <i class="fa fa-trash-o"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    <span class="text">Work 2</span>
+                                    <small class="label label-info"><i class="fa fa-clock-o"></i> 4 天</small>
+                                    <div class="tools">
+                                        <i class="fa fa-edit"></i>
+                                        <i class="fa fa-trash-o"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                    <span class="text">XX站查勘</span>
+                                    <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 天</small>
+                                    <div class="tools">
+                                        <i class="fa fa-edit"></i>
+                                    </div>
+                                </li>
+
+                            </ol>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer clearfix no-border">
+                            <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> 新增工作</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <!-- Calendar -->
+                    <div class="box box-solid bg-green-gradient">
+                        <div class="box-header">
+                            <i class="fa fa-calendar"></i>
+                            <h3 class="box-title">日历</h3>
+                            <!-- tools box -->
+                            <div class="pull-right box-tools">
+                                <!-- button with a dropdown -->
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-bars"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a href="#">Add new event</a></li>
+                                        <li><a href="#">Clear events</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">View calendar</a></li>
+                                    </ul>
+                                </div>
+                                <button type="button" class="btn btn-success btn-sm" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-success btn-sm" data-widget="remove">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <!-- /. tools -->
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body no-padding">
+                            <!--The calendar -->
+                            <div id="calendar" style="width: 100%"></div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer text-black">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <!-- Progress bars -->
+                                    <div class="clearfix">
+                                        <span class="pull-left">Task #1</span>
+                                        <small class="pull-right">90%</small>
+                                    </div>
+                                    <div class="progress xs">
+                                        <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <span class="pull-left">Task #2</span>
+                                        <small class="pull-right">70%</small>
+                                    </div>
+                                    <div class="progress xs">
+                                        <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-6">
+                                    <div class="clearfix">
+                                        <span class="pull-left">Task #3</span>
+                                        <small class="pull-right">60%</small>
+                                    </div>
+                                    <div class="progress xs">
+                                        <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <span class="pull-left">Task #4</span>
+                                        <small class="pull-right">40%</small>
+                                    </div>
+                                    <div class="progress xs">
+                                        <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                    <!-- /.box -->
+                </div>
+
+                <!-- /.box -->
+            </div>
+        </section>
+        <!-- /.Left Col-->
+        <section class="col-lg-5 connectedSortable"></section>
     </div>
     <!-- /.row (main row) -->
 </section>

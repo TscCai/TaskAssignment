@@ -23,13 +23,10 @@ namespace TaskAssignment.Persistence
         [StringLength(10)]
         public string Name { get; set; }
 
-        [Required]
         public bool Enable { get; set; }
 
-        [Required]
         public bool IsInternal { get; set; }
 
-        [Required]
         public bool Countable { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

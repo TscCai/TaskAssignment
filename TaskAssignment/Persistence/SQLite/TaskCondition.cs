@@ -9,34 +9,23 @@ namespace TaskAssignment.Persistence
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Task
+    [Table("TaskCondition")]
+    public partial class TaskCondition
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Task()
+        public TaskCondition()
         {
-            Assigns = new HashSet<Assign>();
+            Tasks = new HashSet<Task>();
         }
 
         public long Id { get; set; }
 
         [Required]
-        [StringLength(255)]
-        public string Content { get; set; }
-
-        public DateTime Date { get; set; }
-
-        public long TypeId { get; set; }
-
-        public long? ConditionId { get; set; }
-
-        public bool Visible { get; set; }
+        [StringLength(10)]
+        public string ConditionName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Assign> Assigns { get; set; }
-
-        public virtual TaskCondition TaskCondition { get; set; }
-
-        public virtual TaskType TaskType { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }
 #endif
