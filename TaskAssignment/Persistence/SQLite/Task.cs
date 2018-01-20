@@ -27,7 +27,13 @@ namespace TaskAssignment.Persistence
         public DateTime Date { get; set; }
 
         [Required]
+        public bool IsBlackout { get; set; }
+
+        [Required]
         public long TypeId { get; set; }
+
+        [Required]
+        public bool Visible { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Assign> Assigns { get; set; }
