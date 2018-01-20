@@ -401,11 +401,13 @@
     <Content Include="Content\dependency\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\dependency\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\dependency\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\Home-Server FTP.pubxml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index2.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\_ViewStart.cshtml" />
+    <Content Include="Views\Home\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

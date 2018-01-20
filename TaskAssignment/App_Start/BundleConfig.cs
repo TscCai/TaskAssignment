@@ -69,7 +69,12 @@ namespace TaskAssignment
             #region Style bundle: ~/dependency/css
             bundles.Add(new StyleBundle("~/dependency/css").Include(
                 // Bootstrap 3.3.7
-                "~/Content/dependency/css/bootstrap.min.css",
+                "~/Content/dependency/css/bootstrap.min.css"
+            ));
+            #endregion
+
+            #region Style bundle:/
+            bundles.Add(new StyleBundle("~/Content/dependency/fonts").Include(
                 // Font-Awesome
                 "~/Content/dependency/css/font-awesome.min.css",
                 // Ion icons
