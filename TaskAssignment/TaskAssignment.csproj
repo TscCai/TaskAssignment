@@ -369,6 +369,7 @@
     <Compile Include="Persistence\SQLite\Member.cs" />
     <Compile Include="Persistence\SQLite\Task.cs" />
     <Compile Include="Persistence\SQLite\TaskAssignmentModel.cs" />
+    <Compile Include="Persistence\SQLite\TaskCondition.cs" />
     <Compile Include="Persistence\SQLite\TaskType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
