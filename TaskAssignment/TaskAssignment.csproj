@@ -206,6 +206,11 @@
     <Content Include="Content\plugins\bootstrap-datepicker\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="Content\plugins\bootstrap-daterangepicker\daterangepicker.css" />
     <Content Include="Content\plugins\bootstrap-daterangepicker\daterangepicker.js" />
+    <Content Include="Content\plugins\datatables.net-bs\dataTables.bootstrap.min.css" />
+    <Content Include="Content\plugins\datatables.net-bs\dataTables.bootstrap.min.js" />
+    <Content Include="Content\plugins\datatables.net-bs\License.txt" />
+    <Content Include="Content\plugins\datatables.net\jquery.dataTables.min.js" />
+    <Content Include="Content\plugins\datatables.net\License.txt" />
     <Content Include="Content\plugins\jquery-knob\.gitignore" />
     <Content Include="Content\plugins\jquery-knob\jquery.knob.min.js" />
     <Content Include="Content\plugins\jquery-slimscroll\jquery.slimscroll.min.js" />
@@ -361,6 +366,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -372,6 +378,7 @@
     <Compile Include="Persistence\SQLite\TaskCondition.cs" />
     <Compile Include="Persistence\SQLite\TaskType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DateTimeEx.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -402,6 +409,8 @@
     <Content Include="Content\dependency\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\dependency\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\dependency\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\plugins\datatables.net-bs\Readme.md" />
+    <Content Include="Content\plugins\datatables.net\Readme.md" />
     <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\Home-Server FTP.pubxml" />
     <Content Include="Views\Home\Index2.cshtml" />
@@ -409,6 +418,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_ViewStart.cshtml" />
     <Content Include="Views\Home\_Layout.cshtml" />
+    <Content Include="Views\Admin\_Layout.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\_ViewStart.cshtml" />
+    <Content Include="Views\Admin\AddTask.cshtml" />
+    <Content Include="Views\Admin\AddTask_Partial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

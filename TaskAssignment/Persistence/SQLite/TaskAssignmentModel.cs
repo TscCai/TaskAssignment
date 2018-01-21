@@ -28,8 +28,9 @@ namespace TaskAssignment.Persistence
 
             modelBuilder.Entity<TaskCondition>()
                 .HasMany(e => e.Tasks)
-                .WithOptional(e => e.TaskCondition)
-                .HasForeignKey(e => e.ConditionId);
+                .WithRequired(e => e.TaskCondition)
+                .HasForeignKey(e => e.ConditionId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Task>()
                 .HasMany(e => e.Assigns)
