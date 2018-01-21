@@ -9,7 +9,7 @@ Target Server Type    : SQLite
 Target Server Version : 30714
 File Encoding         : 65001
 
-Date: 2018-01-21 23:06:19
+Date: 2018-01-21 23:28:27
 */
 
 PRAGMA foreign_keys = OFF;
@@ -33,9 +33,9 @@ DROP TABLE IF EXISTS "main"."Members";
 CREATE TABLE "Members" (
 "Id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 "Name"  TEXT NOT NULL,
-"Enable"  BIT NOT NULL DEFAULT 1,
-"IsInternal"  BIT NOT NULL DEFAULT 1,
-"Countable"  BIT NOT NULL DEFAULT 0
+"Enable"  bit NOT NULL DEFAULT 1,
+"IsInternal"  Bit NOT NULL DEFAULT 1,
+"Countable"  Bit NOT NULL DEFAULT 0
 );
 
 -- ----------------------------
@@ -59,11 +59,12 @@ CREATE TABLE "TaskCondition" (
 DROP TABLE IF EXISTS "main"."Tasks";
 CREATE TABLE "Tasks" (
 "Id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"Location"  TEXT(10),
 "Content"  TEXT NOT NULL,
 "Date"  datetime NOT NULL,
 "TypeId"  INTEGER NOT NULL,
 "ConditionId"  INTEGER NOT NULL DEFAULT 3,
-"Visible"  BIT NOT NULL DEFAULT 1,
+"Visible"  Bit NOT NULL DEFAULT 1,
 CONSTRAINT "FK1" FOREIGN KEY ("TypeId") REFERENCES "TaskType" ("Id") ON DELETE RESTRICT ON UPDATE RESTRICT,
 CONSTRAINT "FK2" FOREIGN KEY ("ConditionId") REFERENCES "TaskCondition" ("Id")
 );
