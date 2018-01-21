@@ -66,6 +66,14 @@ namespace TaskAssignment
             ));
             #endregion
 
+            #region JS bundle: ~/plugins/js/table
+            bundles.Add(new ScriptBundle("~/plugins/js/table").Include(
+                // JQuery UI
+                "~/Content/plugins/datatables.net/jquery.dataTables.min.js",
+                "~/Content/plugins/datatables.net-bs/dataTables.bootstrap.min.js"
+            ));
+            #endregion
+
             #region Style bundle: ~/dependency/css
             bundles.Add(new StyleBundle("~/dependency/css").Include(
                 // Bootstrap 3.3.7
@@ -73,12 +81,18 @@ namespace TaskAssignment
             ));
             #endregion
 
-            #region Style bundle:/
+            #region Style bundle: ~/Content/dependency/fonts
             bundles.Add(new StyleBundle("~/Content/dependency/fonts").Include(
                 // Font-Awesome
                 "~/Content/dependency/css/font-awesome.min.css",
                 // Ion icons
                 "~/Content/dependency/css/ionicons.min.css"
+            ));
+            #endregion
+
+            #region Style bundle: ~/plugins/css/table
+            bundles.Add(new StyleBundle("~/plugins/css/table").Include(
+                "~/Content/plugins/datatables.net-bs/dataTables.bootstrap.min.css"
             ));
             #endregion
 

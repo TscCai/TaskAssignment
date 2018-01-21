@@ -1,0 +1,60 @@
+﻿@model IEnumerable<TaskAssignment.Persistence.Task>
+@{
+    ViewBag.Title = "添加工作";
+    ViewBag.AppendixStyle = Styles.Render("~/plugins/css/table");
+    ViewBag.AppendixScripts = Scripts.Render("~/plugins/js/table");
+    ViewBag.PartialView = "AddTask_Partial";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">本周及下周工作</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>时间</th>
+                                <th>片区</th>
+                                <th>类型</th>
+                                <th>工作内容</th>
+                                <th>成员</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model) {
+                                <tr>
+                                    <td>@item.Date.ToString("MM月dd日")</td>
+                                    <td>@item.Location</td>
+                                    <td>@item.TaskType.TypeName</td>
+                                    <td>@item.Content</td>
+                                    <td>
+                                        @{
+                                            string names = "";
+                                            foreach (var asg in item.Assigns.Where(ta => ta.TaskId == item.Id)) {
+                                                names += asg.Member.Name + "，";
+                                            }
+                                            if (!String.IsNullOrEmpty(names)) {
+                                                names = names.Substring(0, names.Length - 1);
+                                            }
+                                        }
+                                        @names
+                                    </td>
+                                </tr>
+                                            }
+                        </tbody>
+                    </table>
+                    <div class="box-footer clearfix no-border">
+                        <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> 添加工作</button>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>

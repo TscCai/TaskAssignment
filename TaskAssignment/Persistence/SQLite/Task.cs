@@ -19,15 +19,18 @@ namespace TaskAssignment.Persistence
 
         public long Id { get; set; }
 
+        [StringLength(10)]
+        public string Location { get; set; }
+
         [Required]
         [StringLength(255)]
         public string Content { get; set; }
 
         public DateTime Date { get; set; }
 
-        public long TypeId { get; set; }
+        public long ConditionId { get; set; }
 
-        public long? ConditionId { get; set; }
+        public long TypeId { get; set; }
 
         public bool Visible { get; set; }
 

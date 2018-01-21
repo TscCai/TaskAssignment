@@ -11,6 +11,7 @@
     @Styles.Render("~/Content/dependency/fonts")
     @Styles.Render("~/plugins/css")
     @Styles.Render("~/AdminLTE/css")
+    @ViewBag.AppendixStyle
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -311,7 +312,7 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">导航菜单</li>
                     <li>
-                        <a href="@Url.Action("Index")">
+                        <a href="@Url.Action("Index","Admin")">
                             <i class="fa fa-dashboard"></i> <span>工作一览</span>   
                         </a>
                     </li>
@@ -512,5 +513,10 @@
     @Scripts.Render("~/AdminLTE/js")
     <script>$.widget.bridge('uibutton', $.ui.button);</script>
     @Scripts.Render("~/AdminLTE/demo")
+    @ViewBag.AppendixScripts
+    @if (ViewBag.PartialView != null) {
+        @Html.Partial((string)ViewBag.PartialView)
+    }
+    
 </body>
 </html>
