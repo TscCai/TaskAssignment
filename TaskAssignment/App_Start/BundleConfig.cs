@@ -66,11 +66,13 @@ namespace TaskAssignment
             ));
             #endregion
 
-            #region JS bundle: ~/plugins/js/table
-            bundles.Add(new ScriptBundle("~/plugins/js/table").Include(
+            #region JS bundle: ~/plugins/js/addTasks
+            bundles.Add(new ScriptBundle("~/plugins/js/addTasks").Include(
                 // JQuery UI
                 "~/Content/plugins/datatables.net/jquery.dataTables.min.js",
-                "~/Content/plugins/datatables.net-bs/dataTables.bootstrap.min.js"
+                "~/Content/plugins/datatables.net-bs/dataTables.bootstrap.min.js",
+                "~/Content/plugins/select2/select2.full.min.js",
+                "~/Content/plugins/select2/i18n/zh-CN.js"
             ));
             #endregion
 
@@ -90,9 +92,10 @@ namespace TaskAssignment
             ));
             #endregion
 
-            #region Style bundle: ~/plugins/css/table
-            bundles.Add(new StyleBundle("~/plugins/css/table").Include(
-                "~/Content/plugins/datatables.net-bs/dataTables.bootstrap.min.css"
+            #region Style bundle: ~/plugins/css/addTasks
+            bundles.Add(new StyleBundle("~/plugins/css/addTasks").Include(
+                "~/Content/plugins/datatables.net-bs/dataTables.bootstrap.min.css",
+                "~/Content/plugins/select2/select2.min.css"
             ));
             #endregion
 

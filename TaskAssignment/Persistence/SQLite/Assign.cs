@@ -1,6 +1,3 @@
-// Code may be different between EF6-SQLite and EF6-MySQL
-// Use compiler directive to control different dialect
-#if SQLITE
 namespace TaskAssignment.Persistence
 {
     using System;
@@ -18,9 +15,10 @@ namespace TaskAssignment.Persistence
 
         public long MemberId { get; set; }
 
+        public bool IsLeader { get; set; }
+
         public virtual Member Member { get; set; }
 
         public virtual Task Task { get; set; }
     }
 }
-#endif

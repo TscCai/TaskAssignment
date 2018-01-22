@@ -1,12 +1,28 @@
 ﻿<script>
     $(function () {
-        $('#example2').DataTable({
-            'paging': false,
-            'lengthChange': true,
-            'searching': false,
+        $('.select2').select2();
+        $('#tb_tasks').DataTable({
+            "columnDefs": [
+                { "width": "8%", "targets": 0 },
+                { "width": "4%", "targets": 1 },
+                { "width": "4%", "targets": 2 },
+                { "width": "5%", "targets": 3 },
+                { "width": "4%", "targets": 4 },
+                { "width": "25%", "targets": 5 },
+                { "width": "50%", "targets": 6 }
+            ],
+            'autoWidth': true,
+            'lengthChange': false,
             'ordering': false,
-            'info': false,
-            'autoWidth': true
-        })
-    })
+            'info': false
+        });
+
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true,
+            language: 'zh-CN'
+        });
+        
+
+    });
 </script>

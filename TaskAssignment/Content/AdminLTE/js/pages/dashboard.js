@@ -127,7 +127,8 @@ $(function () {
   });
 
   /* Morris.js Charts */
-  // Sales chart
+    // Sales chart
+    /*
   var area = new Morris.Area({
     element   : 'revenue-chart',
     resize    : true,
@@ -191,7 +192,7 @@ $(function () {
     ],
     hideHover: 'auto'
   });
-
+    */
   // Fix for charts under tabs
   $('.box ul.nav a').on('shown.bs.tab', function () {
     area.redraw();

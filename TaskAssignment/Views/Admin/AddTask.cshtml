@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<TaskAssignment.Persistence.Task>
 @{
     ViewBag.Title = "添加工作";
-    ViewBag.AppendixStyle = Styles.Render("~/plugins/css/table");
-    ViewBag.AppendixScripts = Scripts.Render("~/plugins/js/table");
+    ViewBag.AppendixStyle = Styles.Render("~/plugins/css/addTasks");
+    ViewBag.AppendixScripts = Scripts.Render("~/plugins/js/addTasks");
     ViewBag.PartialView = "AddTask_Partial";
 }
 
@@ -15,11 +15,13 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table id="tb_tasks" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>时间</th>
-                                <th>片区</th>
+                                <th>分局</th>
+                                <th>站名</th>
+                                <th>电压等级</th>
                                 <th>类型</th>
                                 <th>工作内容</th>
                                 <th>成员</th>
@@ -28,17 +30,21 @@
                         <tbody>
                             @foreach (var item in Model) {
                                 <tr>
-                                    <td>@item.Date.ToString("MM月dd日")</td>
-                                    <td>@item.Location</td>
+                                    <td>@item.Date.ToString("yyyy年MM月dd日")</td>
+                                    <td>@item.Substation.Location.LocationName</td>
+                                    <td>@item.Substation.SubstationName</td>
+                                    <td>@item.Substation.Voltage kV</td>
                                     <td>@item.TaskType.TypeName</td>
                                     <td>@item.Content</td>
                                     <td>
                                         @{
                                             string names = "";
-                                            foreach (var asg in item.Assigns.Where(ta => ta.TaskId == item.Id)) {
-                                                names += asg.Member.Name + "，";
-                                            }
-                                            if (!String.IsNullOrEmpty(names)) {
+                                            var nameList = item.Assigns.Where(ta => ta.TaskId == item.Id).OrderBy(ta => ta.IsLeader);
+                                            if (nameList != null && nameList.Count() > 0) {
+                                                <b>@nameList.First().Member.Name，</b>
+                                                foreach (var asg in nameList.Skip(1)) {
+                                                    names += asg.Member.Name + "，";
+                                                }
                                                 names = names.Substring(0, names.Length - 1);
                                             }
                                         }
@@ -48,13 +54,271 @@
                                             }
                         </tbody>
                     </table>
-                    <div class="box-footer clearfix no-border">
-                        <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> 添加工作</button>
-                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box with-border box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">新增工作</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-default pull-right" style="margin-top:5px"><i class="fa fa-upload"></i>&nbsp;&nbsp;从Excel导入</button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>时间：</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="datepicker" name="" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>站名：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-industry"></i>
+                                        </div>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option selected="selected">Alabama</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                            <option>Delaware</option>
+                                            <option>Tennessee</option>
+                                            <option>Texas</option>
+                                            <option>Washington</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>工作条件：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-wrench"></i>
+                                        </div>
+                                        <select class="form-control pull-right">
+                                            <option value="1">停电</option>
+                                            <option value="2">不停电</option>
+                                            <option value="3">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>工作类型：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-tag"></i>
+                                        </div>
+                                        <select class="form-control">
+                                            <option value="1">预试</option>
+                                            <option value="2">处缺</option>
+                                            <option value="3">培训</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>工作内容：</label>
+                                    <textarea class="form-control" rows="8" placeholder="输入工作内容 ..."></textarea>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>工作负责人：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option>Alabama</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                            <option>Delaware</option>
+                                            <option>Tennessee</option>
+                                            <option>Texas</option>
+                                            <option>Washington</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>工作班成员：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-users"></i>
+                                        </div>
+                                        <select class="form-control select2" multiple="multiple" style="width: 100%;">
+                                            <option>Joe</option>
+                                            <option>Martin</option>
+                                            <option>Wendy</option>
+                                            <option>Terrisa</option>
+                                            <option>Cartman</option>
+                                            <option>Morgan</option>
+                                            <option>White</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary pull-right">确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header bg-green-gradient">
+                    <h3 class="box-title">培训 &amp; 休假</h3>
+                </div>
+                <div class="box-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>时间：</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right" id="datepicker" name="" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>站名：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-industry"></i>
+                                        </div>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option selected="selected">Alabama</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                            <option>Delaware</option>
+                                            <option>Tennessee</option>
+                                            <option>Texas</option>
+                                            <option>Washington</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>工作条件：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-wrench"></i>
+                                        </div>
+                                        <select class="form-control pull-right">
+                                            <option value="1">停电</option>
+                                            <option value="2">不停电</option>
+                                            <option value="3">其他</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>工作类型：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-tag"></i>
+                                        </div>
+                                        <select class="form-control">
+                                            <option value="1">预试</option>
+                                            <option value="2">处缺</option>
+                                            <option value="3">培训</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>工作内容：</label>
+                                    <textarea class="form-control" rows="8" placeholder="输入工作内容 ..."></textarea>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>工作负责人：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option>Alabama</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                            <option>Delaware</option>
+                                            <option>Tennessee</option>
+                                            <option>Texas</option>
+                                            <option>Washington</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>工作班成员：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-users"></i>
+                                        </div>
+                                        <select class="form-control select2" multiple="multiple" style="width: 100%;">
+                                            <option>Joe</option>
+                                            <option>Martin</option>
+                                            <option>Wendy</option>
+                                            <option>Terrisa</option>
+                                            <option>Cartman</option>
+                                            <option>Morgan</option>
+                                            <option>White</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary pull-right">确&nbsp;&nbsp;认</button>
+                </div>
+            </div>
         </div>
     </div>
 </section>

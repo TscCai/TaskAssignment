@@ -6,27 +6,27 @@ namespace TaskAssignment.Persistence
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Member
+    public partial class Substation
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Member()
+        public Substation()
         {
-            Assigns = new HashSet<Assign>();
+            Tasks = new HashSet<Task>();
         }
 
         public long Id { get; set; }
 
+        public long Voltage { get; set; }
+
         [Required]
         [StringLength(10)]
-        public string Name { get; set; }
+        public string SubstationName { get; set; }
 
-        public bool Enable { get; set; }
+        public long LocationId { get; set; }
 
-        public bool IsInternal { get; set; }
-
-        public bool Countable { get; set; }
+        public virtual Location Location { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Assign> Assigns { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

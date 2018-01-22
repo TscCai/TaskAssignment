@@ -26,7 +26,7 @@ namespace TaskAssignment.Controllers
             DateTime nextWeekend = thisWeekbegin.AddDays(fortnight-1);   // to next Sunday
             var tasks = ctx.Tasks
                 .Where(t => t.Date >= thisWeekbegin && t.Date <= nextWeekend)
-                .OrderBy(t => t.Date);
+                .OrderBy(t => t.Assigns.Count);
             return View(tasks);
         }
     }

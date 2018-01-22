@@ -219,6 +219,9 @@
     <Content Include="Content\plugins\morris.js\morris.css" />
     <Content Include="Content\plugins\morris.js\morris.min.js" />
     <Content Include="Content\plugins\raphael\raphael.min.js" />
+    <Content Include="Content\plugins\select2\i18n\zh-CN.js" />
+    <Content Include="Content\plugins\select2\select2.full.min.js" />
+    <Content Include="Content\plugins\select2\select2.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\plugins\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="Content\plugins\bootstrap-slider\slider.css" />
@@ -372,7 +375,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Persistence\SQLite\Assign.cs" />
+    <Compile Include="Persistence\SQLite\Location.cs" />
     <Compile Include="Persistence\SQLite\Member.cs" />
+    <Compile Include="Persistence\SQLite\Substation.cs" />
     <Compile Include="Persistence\SQLite\Task.cs" />
     <Compile Include="Persistence\SQLite\TaskAssignmentModel.cs" />
     <Compile Include="Persistence\SQLite\TaskCondition.cs" />
@@ -435,6 +440,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
