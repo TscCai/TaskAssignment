@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TaskAssignment.Persistence.Task>
+@{ Layout = null;}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">本周及下周工作</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="tb_tasks" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>分局</th>
+                            <th>站名</th>
+                            <th>电压等级</th>
+                            <th>类型</th>
+                            <th>工作内容</th>
+                            <th>成员</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model) {
+                            <tr>
+                                <td>@item.Date.ToString("yyyy年MM月dd日")</td>
+                                <td>@item.Substation.Location.LocationName</td>
+                                <td>@item.Substation.SubstationName</td>
+                                <td>@item.Substation.Voltage kV</td>
+                                <td>@item.TaskType.TypeName</td>
+                                <td>@item.Content</td>
+                                <td>
+                                    @{
+                                        string names = "";
+                                        var nameList = item.Assigns.Where(ta => ta.TaskId == item.Id).OrderBy(ta => ta.IsLeader);
+                                        if (nameList != null && nameList.Count() > 0) {
+                                            <b>@nameList.First().Member.Name，</b>
+                                            foreach (var asg in nameList.Skip(1)) {
+                                                names += asg.Member.Name + "，";
+                                            }
+                                            names = names.Substring(0, names.Length - 1);
+                                        }
+                                    }
+                                    @names
+                                </td>
+                            </tr>
+                                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+
+

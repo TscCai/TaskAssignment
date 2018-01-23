@@ -371,6 +371,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -428,6 +429,11 @@
     <Content Include="Views\Admin\_ViewStart.cshtml" />
     <Content Include="Views\Admin\AddTask.cshtml" />
     <Content Include="Views\Admin\AddTask_Partial.cshtml" />
+    <Content Include="Views\Admin\_RecentTasks.cshtml" />
+    <Content Include="Views\Admin\_SubstationList.cshtml" />
+    <Content Include="Views\Member\_AllList.cshtml" />
+    <Content Include="Views\Member\_Layout.cshtml" />
+    <Content Include="Views\Member\_ViewStart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -437,6 +443,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Views\Task\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

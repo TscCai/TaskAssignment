@@ -1,0 +1,7 @@
+﻿@model IEnumerable<TaskAssignment.Persistence.Substation>
+@{ Layout = null;}
+@{ 
+    foreach (var item in Model) {
+        <option value="@item.Id">@item.SubstationName</option>
+    }
+}
