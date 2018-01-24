@@ -1,4 +1,4 @@
-﻿@model TaskAssignment.Persistence.Task
+﻿@model TaskAssignment.Models.AddTask
 @{
     ViewBag.Title = "添加工作";
     ViewBag.AppendixStyle = Styles.Render("~/plugins/css/addTasks");
@@ -19,7 +19,6 @@
                 </div>
                 @using (Html.BeginForm()) {
                     <div class="box-body">
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -28,7 +27,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        @Html.TextBoxFor(txt => txt.Date, new { @class = "form-control pull-right", id = "datepicker" })
+                                        @Html.TextBoxFor(txt => txt.Task.Date, new { @class = "form-control pull-right", id = "datepicker" })
 
                                     </div>
                                 </div>
@@ -41,7 +40,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-industry"></i>
                                         </div>
-                                        <select class="form-control select2" name="SubstationId" style="width: 100%;">
+                                        <select class="form-control select2" name="Task.SubstationId" style="width: 100%;">
                                             @Html.Action("SubstationList")
                                         </select>
                                     </div>
@@ -56,7 +55,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-wrench"></i>
                                         </div>
-                                        <select class="form-control pull-right" name="ConditionId">
+                                        <select class="form-control pull-right" name="Task.ConditionId">
                                             <option value="1">停电</option>
                                             <option value="2">不停电</option>
                                             <option value="3">其他</option>
@@ -71,7 +70,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-tag"></i>
                                         </div>
-                                        <select class="form-control" name="TypeId">
+                                        <select class="form-control" name="Task.TypeId">
                                             <option value="1">预试</option>
                                             <option value="2">处缺</option>
                                             <option value="3">培训</option>
@@ -84,7 +83,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>工作内容：</label>
-                                    <textarea name="Content" class="form-control" rows="8" placeholder="输入工作内容 ..."></textarea>
+                                    <textarea name="Task.Content" class="form-control" rows="8" placeholder="输入工作内容 ..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +95,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <select class="form-control select2" style="width: 100%;">
+                                        <select name="LeaderId" class="form-control select2" style="width: 100%;">
                                             @Html.Action("AllList", "Member")
                                         </select>
                                     </div>
@@ -109,14 +108,13 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-users"></i>
                                         </div>
-                                        <select name="Assign.MemberId" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                        <select name="MemberId" class="form-control select2" multiple="multiple" style="width: 100%;">
                                             @Html.Action("AllList", "Member")
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary pull-right">确&nbsp;&nbsp;认</button>
@@ -254,3 +252,140 @@
         </div>
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="取消"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改工作安排</h4>
+            </div>
+            @using (Html.BeginForm("EditTask", "Admin")) {
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>时间：</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                @Html.TextBoxFor(txt => txt.Task.Date, new { @class = "form-control pull-right", id = "datepicker" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>站名：</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-industry"></i>
+                                </div>
+                                <select class="form-control select2" name="Task.SubstationId" style="width: 100%;">
+                                    @Html.Action("SubstationList")
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>工作条件：</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-wrench"></i>
+                                </div>
+                                <select class="form-control pull-right" name="Task.ConditionId">
+                                    <option value="1">停电</option>
+                                    <option value="2">不停电</option>
+                                    <option value="3">其他</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>工作类型：</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-tag"></i>
+                                </div>
+                                <select class="form-control" name="Task.TypeId">
+                                    <option value="1">预试</option>
+                                    <option value="2">处缺</option>
+                                    <option value="3">培训</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>工作内容：</label>
+                            <textarea name="Task.Content" class="form-control" rows="8" placeholder="输入工作内容 ..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>工作负责人：</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <select name="LeaderId" class="form-control select2" style="width: 100%;">
+                                    @Html.Action("AllList", "Member")
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>工作班成员：</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <select name="MemberId" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                    @Html.Action("AllList", "Member")
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal modal-danger fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="取消"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改工作安排</h4>
+            </div>
+
+            <div class="modal-body">
+                确认删除该工作吗？（该操作不可逆）
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-danger" onclick="">删除</button>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -8,8 +8,8 @@
                 { "width": "4%", "targets": 2 },
                 { "width": "5%", "targets": 3 },
                 { "width": "4%", "targets": 4 },
-                { "width": "25%", "targets": 5 },
-                { "width": "50%", "targets": 6 }
+                { "width": "30%", "targets": 5 },
+                { "width": "35%", "targets": 6 }
             ],
             'autoWidth': true,
             'lengthChange': false,
@@ -22,7 +22,19 @@
             autoclose: true,
             language: 'zh-CN'
         });
-        
+
+        var delModal = $("#delModal");
+        delModal.on("show.bs.modal", function (e) {
+            // 这里的btn就是触发元素，即你点击的删除按钮
+            var btn = $(e.relatedTarget),
+                id = btn.attr("id").split('_')[2];
+            $("#delModal button[type='submit']").bind("click", function () {
+                location.href = location.protocol+"//"+location.host + "/Admin/DeleteTask/" + id;
+            });
+            // do your work
+        })
 
     });
+
+
 </script>

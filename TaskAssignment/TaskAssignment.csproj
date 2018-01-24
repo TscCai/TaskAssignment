@@ -375,6 +375,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddTask.cs" />
     <Compile Include="Persistence\SQLite\Assign.cs" />
     <Compile Include="Persistence\SQLite\Location.cs" />
     <Compile Include="Persistence\SQLite\Member.cs" />
@@ -442,7 +443,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Views\Task\" />
   </ItemGroup>
   <ItemGroup>
