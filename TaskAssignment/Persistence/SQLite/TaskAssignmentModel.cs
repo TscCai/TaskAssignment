@@ -12,6 +12,8 @@ namespace TaskAssignment.Persistence
         }
 
         public virtual DbSet<Assign> Assigns { get; set; }
+        public virtual DbSet<Attendance> Attendances { get; set; }
+        public virtual DbSet<AttendanceType> AttendanceTypes { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Substation> Substations { get; set; }
@@ -20,6 +22,12 @@ namespace TaskAssignment.Persistence
         public virtual DbSet<TaskType> TaskTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+            modelBuilder.Entity<AttendanceType>()
+                .HasMany(e => e.Attendances)
+                .WithRequired(e => e.AttendanceType)
+                .HasForeignKey(e => e.TypeId)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Location>()
                 .HasMany(e => e.Substations)
                 .WithRequired(e => e.Location)
@@ -27,6 +35,11 @@ namespace TaskAssignment.Persistence
 
             modelBuilder.Entity<Member>()
                 .HasMany(e => e.Assigns)
+                .WithRequired(e => e.Member)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Member>()
+                .HasMany(e => e.Attendances)
                 .WithRequired(e => e.Member)
                 .WillCascadeOnDelete(false);
 

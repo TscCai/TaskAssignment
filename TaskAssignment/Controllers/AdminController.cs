@@ -31,7 +31,7 @@ namespace TaskAssignment.Controllers
             Task t = model.Task;
             var ctx = new TaskAssignmentModel();
             ctx.Tasks.Add(t);
-            
+
             if (model.LeaderId > 0) {
                 Assign leader = new Assign();
                 leader.MemberId = model.LeaderId;
@@ -45,12 +45,39 @@ namespace TaskAssignment.Controllers
                 asg.MemberId = item;
                 asg.IsLeader = false;
                 asg.TaskId = t.Id;
+
+                Attendance att = new Attendance();
+                att.MemberId = item;
+                att.TypeId = 2; // The Type of outside work in DB is 2 (reffer to AttendanceType)
+                att.StartDate = t.Date;
+                att.FinishDate = t.Date;
                 ctx.Assigns.Add(asg);
+                ctx.Attendances.Add(att);
             }
             ctx.SaveChanges();
 
             ViewBag.Success = true;
+            ViewBag.Message = "该工作已添加。";
             return View();
+        }
+
+        public ActionResult DeleteTask(int id) {
+            var ctx = new TaskAssignmentModel();
+            var task = ctx.Tasks.SingleOrDefault(t => t.Id == id);
+
+            var asg = ctx.Assigns.Where(a=>a.TaskId == id);
+            if(asg !=null && asg.Count() > 0) {
+                ctx.Assigns.RemoveRange(asg);
+            }
+            if (task != null && task.Id != 0) {
+                ctx.Tasks.Remove(task);
+                ctx.SaveChanges();
+                // Won't work currently
+                //ViewBag.Success = true;
+                //ViewBag.Message = "该工作已删除。";
+            }
+
+            return RedirectToAction("AddTask");
         }
 
         [ChildActionOnly]

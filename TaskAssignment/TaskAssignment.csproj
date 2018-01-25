@@ -377,6 +377,8 @@
     </Compile>
     <Compile Include="Models\AddTask.cs" />
     <Compile Include="Persistence\SQLite\Assign.cs" />
+    <Compile Include="Persistence\SQLite\Attendance.cs" />
+    <Compile Include="Persistence\SQLite\AttendanceType.cs" />
     <Compile Include="Persistence\SQLite\Location.cs" />
     <Compile Include="Persistence\SQLite\Member.cs" />
     <Compile Include="Persistence\SQLite\Substation.cs" />
@@ -429,7 +431,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\_ViewStart.cshtml" />
     <Content Include="Views\Admin\AddTask.cshtml" />
-    <Content Include="Views\Admin\AddTask_Partial.cshtml" />
+    <Content Include="Views\Admin\AddTask_Script.cshtml" />
     <Content Include="Views\Admin\_RecentTasks.cshtml" />
     <Content Include="Views\Admin\_SubstationList.cshtml" />
     <Content Include="Views\Member\_AllList.cshtml" />
