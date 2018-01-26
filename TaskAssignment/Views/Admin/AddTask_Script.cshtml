@@ -34,6 +34,33 @@
             // do your work
         })
 
+        var delModal = $("#editModal");
+        delModal.on("show.bs.modal", function (e) {
+            // 这里的btn就是触发元素，即你点击的删除按钮
+            var btn = $(e.relatedTarget),
+                id = btn.attr("id").split('_')[2]; 
+            // do your work
+            $.getJSON(
+                location.protocol + "//" + location.host + "/Admin/EditTask/" + id,
+                function (data) {
+                    $("#editModal input[name='Task.Id']").val(data.Id);
+                    $("#editModal input[name='Task.Date']").val(data.Date);
+                    $("#editModal select[name='Task.SubstationId'] option[value='" + data.SubstationId + "']")
+                        .attr("selected", "selected");
+                    $("#editModal select[name='Task.ConditionId'] option[value='" + data.ConditionId + "']")
+                        .attr("selected", "selected");
+                    $("#editModal select[name='Task.TypeId'] option[value='" + data.TypeId + "']")
+                        .attr("selected", "selected");
+                    $("#editModal textarea").html(data.Content);
+                    $("#editModal select[name='LeaderId']").val(data.LeaderId);
+                    $("#editModal select[name='LeaderId']").trigger("change");
+
+                    $("#editModal select[name='MemberId']").val(data.MemberId);
+                    $("#editModal select[name='MemberId']").trigger("change");
+            });
+        })
+
+
     });
 
 

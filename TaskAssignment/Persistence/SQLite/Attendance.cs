@@ -13,6 +13,8 @@ namespace TaskAssignment.Persistence
 
         public long MemberId { get; set; }
 
+        public long TaskId { get; set; }
+
         public long TypeId { get; set; }
 
         public DateTime StartDate { get; set; }
