@@ -5,10 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 using TaskAssignment.Persistence;
 
-namespace TaskAssignment.Controllers
+namespace TaskAssignment.Areas.Admin.Controllers
 {
     public class MemberController : Controller
     {
+        public ActionResult Index() {
+            return View();
+        }
+
         // GET: Member
         [ChildActionOnly]
         public ActionResult AllList()

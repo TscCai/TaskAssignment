@@ -3,31 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TaskAssignment.Areas.Admin.Models;
 using TaskAssignment.Persistence;
-using TaskAssignment.Models;
 using TaskAssignment.Util;
 
-namespace TaskAssignment.Controllers
+namespace TaskAssignment.Areas.Admin.Controllers
 {
-    public class AdminController : Controller
+    public class TaskController : Controller
     {
         const int Type4Outdoor = 2;
+        
+        // GET: /Admin/Task/Show
+        public ActionResult Show() {
 
-        // GET: Admin
-        public ActionResult Index() {
             return View();
         }
 
-        #region Task
-
         [HttpGet]
-        public ActionResult AddTask() {
+        public ActionResult Add() {
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddTask(AddTask model) {
+        public ActionResult Add(AddTask model) {
             Task t = model.Task;
             var ctx = new TaskAssignmentModel();
             t.Visible = true;
@@ -69,45 +68,8 @@ namespace TaskAssignment.Controllers
             return View();
         }
 
-        public ActionResult DeleteTask(int id) {
-            var ctx = new TaskAssignmentModel();
-            var task = ctx.Tasks.SingleOrDefault(t => t.Id == id);
-
-            var asg = ctx.Assigns.Where(a => a.TaskId == id);
-            if (asg != null && asg.Count() > 0) {
-                ctx.Assigns.RemoveRange(asg);
-            }
-
-            // Notice: Attendance cascaded delete has been implement in DB by trigger
-
-            if (task != null && task.Id != 0) {
-                ctx.Tasks.Remove(task);
-                ctx.SaveChanges();
-                // Won't work currently
-                //ViewBag.Success = true;
-                //ViewBag.Message = "该工作已删除。";
-            }
-
-            return RedirectToAction("AddTask");
-        }
-
-        [ChildActionOnly]
-        public ActionResult RecentTasks() {
-            // Fetch the tasks that are already assigned this and the next  week 
-            var ctx = new TaskAssignmentModel();
-            const int fortnight = 14;
-            DateTime thisWeekbegin = DateTime.Today.WeekBegin(DayOfWeek.Monday);
-            DateTime nextWeekend = thisWeekbegin.AddDays(fortnight - 1);   // to next Sunday
-            var tasks = ctx.Tasks
-                .Where(t => t.Date >= thisWeekbegin && t.Date <= nextWeekend)
-                .OrderBy(t => t.Assigns.Count);
-            return View("_RecentTasks", tasks);
-        }
-
-
-
         [HttpGet]
-        public JsonResult EditTask(int id) {
+        public JsonResult Edit(int id) {
             var ctx = new TaskAssignmentModel();
             var task = ctx.Tasks.SingleOrDefault(t => t.Id == id);
             var result = new JsonResult();
@@ -126,7 +88,7 @@ namespace TaskAssignment.Controllers
 
             var asg = task.Assigns.SingleOrDefault(t => t.TaskId == id && t.IsLeader);
             long l_id = 0;
-            if(asg != null) {
+            if (asg != null) {
                 l_id = asg.MemberId;
             }
             result.Data = new {
@@ -145,7 +107,7 @@ namespace TaskAssignment.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditTask(AddTask model) {
+        public ActionResult Edit(AddTask model) {
             if (model != null && model.Task != null && model.Task.Id > 0) {
                 var ctx = new TaskAssignmentModel();
                 var task = ctx.Tasks.SingleOrDefault(t => t.Id == model.Task.Id);
@@ -195,21 +157,47 @@ namespace TaskAssignment.Controllers
                 }
                 ctx.SaveChanges();
             }
-            return RedirectToAction("AddTask");
+            return RedirectToAction("Add");
         }
 
-        #endregion
+        public ActionResult Delete(int id) {
+            var ctx = new TaskAssignmentModel();
+            var task = ctx.Tasks.SingleOrDefault(t => t.Id == id);
+
+            var asg = ctx.Assigns.Where(a => a.TaskId == id);
+            if (asg != null && asg.Count() > 0) {
+                ctx.Assigns.RemoveRange(asg);
+            }
+
+            // Notice: Attendance cascaded delete has been implement in DB by trigger
+
+            if (task != null && task.Id != 0) {
+                ctx.Tasks.Remove(task);
+                ctx.SaveChanges();
+                // Won't work currently
+                //ViewBag.Success = true;
+                //ViewBag.Message = "该工作已删除。";
+            }
+
+            return RedirectToAction("Add");
+        }
+
+        public ActionResult Attendance() {
+            return View();
+        }
+
         [ChildActionOnly]
-        public ActionResult SubstationList() {
+        public ActionResult Recent() {
+            // Fetch the tasks that are already assigned this and the next  week 
             var ctx = new TaskAssignmentModel();
-            var list = ctx.Substations.DefaultIfEmpty();
-            return View("_SubstationList", list);
+            const int fortnight = 14;
+            DateTime thisWeekbegin = DateTime.Today.WeekBegin(DayOfWeek.Monday);
+            DateTime nextWeekend = thisWeekbegin.AddDays(fortnight - 1);   // to next Sunday
+            var tasks = ctx.Tasks
+                .Where(t => t.Date >= thisWeekbegin && t.Date <= nextWeekend)
+                .OrderBy(t => t.Assigns.Count);
+            return View("_Recent", tasks);
         }
 
-        public ActionResult AllSubstations() {
-            var ctx = new TaskAssignmentModel();
-            var list = ctx.Substations.DefaultIfEmpty();
-            return View(list);
-        }
     }
 }

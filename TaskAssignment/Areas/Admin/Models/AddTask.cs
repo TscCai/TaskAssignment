@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using TaskAssignment.Persistence;
 
-namespace TaskAssignment.Models
+namespace TaskAssignment.Areas.Admin.Models
 {
     public class AddTask
     {

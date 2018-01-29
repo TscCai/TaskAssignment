@@ -369,13 +369,16 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SubstationController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TaskController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MemberController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AddTask.cs" />
+    <Compile Include="Areas\Admin\Models\AddTask.cs" />
     <Compile Include="Persistence\SQLite\Assign.cs" />
     <Compile Include="Persistence\SQLite\Attendance.cs" />
     <Compile Include="Persistence\SQLite\AttendanceType.cs" />
@@ -420,6 +423,7 @@
     <Content Include="Content\dependency\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\plugins\datatables.net-bs\Readme.md" />
     <Content Include="Content\plugins\datatables.net\Readme.md" />
+    <Content Include="Areas\Admin\Views\web.config" />
     <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\Home-Server FTP.pubxml" />
     <Content Include="Views\Home\Index2.cshtml" />
@@ -427,16 +431,15 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_ViewStart.cshtml" />
     <Content Include="Views\Home\_Layout.cshtml" />
-    <Content Include="Views\Admin\_Layout.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\_ViewStart.cshtml" />
-    <Content Include="Views\Admin\AddTask.cshtml" />
-    <Content Include="Views\Admin\AddTask_Script.cshtml" />
-    <Content Include="Views\Admin\_RecentTasks.cshtml" />
-    <Content Include="Views\Admin\_SubstationList.cshtml" />
-    <Content Include="Views\Member\_AllList.cshtml" />
-    <Content Include="Views\Member\_Layout.cshtml" />
-    <Content Include="Views\Member\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Task\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Task\Add_Script.cshtml" />
+    <Content Include="Areas\Admin\Views\Task\_Recent.cshtml" />
+    <Content Include="Areas\Admin\Views\Substation\_List.cshtml" />
+    <Content Include="Areas\Admin\Views\Member\_AllList.cshtml" />
+    <Content Include="Areas\Admin\Views\Member\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -445,7 +448,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Task\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

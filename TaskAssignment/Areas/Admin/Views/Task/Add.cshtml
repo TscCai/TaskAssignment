@@ -1,9 +1,9 @@
-﻿@model TaskAssignment.Models.AddTask
+﻿@model TaskAssignment.Areas.Admin.Models.AddTask
 @{
     ViewBag.Title = "添加工作";
     ViewBag.AppendixStyle = Styles.Render("~/plugins/css/addTasks");
     ViewBag.AppendixScripts = Scripts.Render("~/plugins/js/addTasks");
-    ViewBag.PartialView = "AddTask_Script";
+    ViewBag.PartialView = "Add_Script";
 }
 
 <section class="content">
@@ -14,7 +14,7 @@
             @ViewBag.Message
         </div>
     }
-    @Html.Action("RecentTasks")
+    @Html.Action("Recent")
     <div class="row">
         <div class="col-md-6">
             <div class="box with-border box-primary">
@@ -48,7 +48,7 @@
                                             <i class="fa fa-industry"></i>
                                         </div>
                                         <select class="form-control select2" name="Task.SubstationId" style="width: 100%;">
-                                            @Html.Action("SubstationList")
+                                            @Html.Action("List","Substation")
                                         </select>
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="取消"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">修改工作安排</h4>
             </div>
-            @using (Html.BeginForm("EditTask", "Admin")) {
+            @using (Html.BeginForm("Edit","Task")) {
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
@@ -292,7 +292,7 @@
                                     <i class="fa fa-industry"></i>
                                 </div>
                                 <select class="form-control select2" name="Task.SubstationId" style="width: 100%;">
-                                    @Html.Action("SubstationList")
+                                    @Html.Action("List","Substation")
                                 </select>
                             </div>
                         </div>
