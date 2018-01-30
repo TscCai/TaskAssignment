@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TaskAssignment.Persistence.Task>
+@{
+    ViewBag.Title = "查询工作计划";
+    ViewBag.AppendixStyle = Styles.Render("~/plugins/css/addTasks");
+    ViewBag.AppendixScripts = Scripts.Render("~/plugins/js/addTasks");
+    ViewBag.PartialView = "Show_Script";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">工作安排查询</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">
+                    @using (Html.BeginForm()) {
+                        <div class="form-group col-md-3">
+                            <div class="input-group input-daterange">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input class="form-control" data-val="true" name="Start" type="text" value="@ViewBag.Start" />
+                                <div class="input-group-addon" style="border:none">至</div>
+                                <input name="Finish" data-val="true" type="text" class="form-control" value="@ViewBag.Finish" />
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-success">查询</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-2 form-group pull-right">
+                        <div class="input-group">
+                            <button class="btn btn-danger"><i class="fa fa-download"></i>&nbsp;&nbsp;导出 Excel</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <table id="tb_tasks" class="table table-bordered table-hover" width="100%">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>分局</th>
+                        <th>站名</th>
+                        <th>电压等级</th>
+                        <th>类型</th>
+                        <th>工作内容</th>
+                        <th>成员</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ if (Model != null) {
+                            foreach (var item in Model) {
+                                <tr>
+                                    <td>@item.Date.ToString("yyyy年MM月dd日")</td>
+                                    <td>@item.Substation.Location.LocationName</td>
+                                    <td>@item.Substation.SubstationName</td>
+                                    <td>@item.Substation.Voltage kV</td>
+                                    <td>@item.TaskType.TypeName</td>
+                                    <td>@item.Content</td>
+                                    <td>
+                                        @{
+                                            string names = "";
+                                            var nameList = item.Assigns.Where(ta => ta.TaskId == item.Id).OrderByDescending(ta => ta.IsLeader);
+                                            if (nameList != null && nameList.Count() > 0) {
+                                                <b>@nameList.First().Member.Name，</b>
+                                                foreach (var asg in nameList.Skip(1)) {
+                                                    names += asg.Member.Name + "，";
+                                                }
+                                                names = names.Substring(0, names.Length - 1);
+                                            }
+                                        }
+                                        @names
+                                    </td>
+                                    <td>
+                                        <div class="tools">
+                                            <button id="btn_edit_@item.Id" class="btn  btn-primary btn-xs" data-toggle="modal" data-target="#editModal">
+                                                <i class="fa fa-edit"></i>&nbsp;编&nbsp;辑&nbsp;
+                                            </button>
+                                            <button id="btn_del_@item.Id" class="btn  btn-danger btn-xs pull-right" data-toggle="modal" data-target="#delModal">
+                                                <i class="fa fa-trash-o"></i>&nbsp;删&nbsp;除&nbsp;
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                                }
+                                            }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</div>
+@Html.Partial("EditModal")
+@Html.Partial("DelModal")
+

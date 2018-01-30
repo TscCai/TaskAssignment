@@ -14,9 +14,19 @@ namespace TaskAssignment.Areas.Admin.Controllers
         const int Type4Outdoor = 2;
         
         // GET: /Admin/Task/Show
-        public ActionResult Show() {
-
+        [HttpGet]
+        public ActionResult Show() {           
+            
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Show(DateRange model) {
+            var ctx = new TaskAssignmentModel();
+            var list = ctx.Tasks.Where(t => t.Date >= model.Start && t.Date <= model.Finish);
+            ViewBag.Start = model.Start.ToString("yyyy年MM月dd日");
+            ViewBag.Finish = model.Finish.ToString("yyyy年MM月dd日");
+            return View(list);
         }
 
         [HttpGet]
@@ -44,6 +54,7 @@ namespace TaskAssignment.Areas.Admin.Controllers
                 att.MemberId = model.LeaderId;
                 att.StartDate = t.Date;
                 att.FinishDate = t.Date;
+                ctx.Attendances.Add(att);
             }
 
             foreach (var item in model.MemberId) {

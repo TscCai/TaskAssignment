@@ -373,6 +373,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubstationController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaskController.cs" />
+    <Compile Include="Areas\Admin\Models\DateRange.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MemberController.cs" />
     <Compile Include="Global.asax.cs">
@@ -424,6 +425,10 @@
     <Content Include="Content\plugins\datatables.net-bs\Readme.md" />
     <Content Include="Content\plugins\datatables.net\Readme.md" />
     <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Task\Show.cshtml" />
+    <Content Include="Areas\Admin\Views\Task\Show_Script.cshtml" />
+    <Content Include="Areas\Admin\Views\Task\EditModal.cshtml" />
+    <Content Include="Areas\Admin\Views\Task\DelModal.cshtml" />
     <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\Home-Server FTP.pubxml" />
     <Content Include="Views\Home\Index2.cshtml" />
