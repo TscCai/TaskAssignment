@@ -12,11 +12,11 @@ namespace TaskAssignment.Areas.Admin.Controllers
     public class TaskController : Controller
     {
         const int Type4Outdoor = 2;
-        
+
         // GET: /Admin/Task/Show
         [HttpGet]
-        public ActionResult Show() {           
-            
+        public ActionResult Show() {
+
             return View();
         }
 
@@ -37,6 +37,7 @@ namespace TaskAssignment.Areas.Admin.Controllers
 
         [HttpPost]
         public ActionResult Add(AddTask model) {
+            // Only invoke in Add.cshtml
             Task t = model.Task;
             var ctx = new TaskAssignmentModel();
             t.Visible = true;
@@ -168,10 +169,10 @@ namespace TaskAssignment.Areas.Admin.Controllers
                 }
                 ctx.SaveChanges();
             }
-            return RedirectToAction("Add");
+            return RedirectToAction(model.ReturnAction);
         }
 
-        public ActionResult Delete(int id) {
+        public ActionResult Delete(int id, string rtnact) {
             var ctx = new TaskAssignmentModel();
             var task = ctx.Tasks.SingleOrDefault(t => t.Id == id);
 
@@ -189,13 +190,15 @@ namespace TaskAssignment.Areas.Admin.Controllers
                 //ViewBag.Success = true;
                 //ViewBag.Message = "该工作已删除。";
             }
-
-            return RedirectToAction("Add");
+            if (rtnact == null || rtnact.Length == 0) {
+                return RedirectToAction("Add");
+            }
+            else {
+                return RedirectToAction(rtnact);
+            }
         }
 
-        public ActionResult Attendance() {
-            return View();
-        }
+        
 
         [ChildActionOnly]
         public ActionResult Recent() {

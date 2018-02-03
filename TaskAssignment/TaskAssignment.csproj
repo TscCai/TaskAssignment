@@ -371,6 +371,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AttendanceController.cs" />
     <Compile Include="Areas\Admin\Controllers\SubstationController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaskController.cs" />
     <Compile Include="Areas\Admin\Models\DateRange.cs" />
@@ -429,6 +430,9 @@
     <Content Include="Areas\Admin\Views\Task\Show_Script.cshtml" />
     <Content Include="Areas\Admin\Views\Task\EditModal.cshtml" />
     <Content Include="Areas\Admin\Views\Task\DelModal.cshtml" />
+    <Content Include="Areas\Admin\Views\Attendance\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Attendance\Index_Script.cshtml" />
+    <Content Include="Areas\Admin\Views\Member\AttendanceMemberList.cshtml" />
     <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\Home-Server FTP.pubxml" />
     <Content Include="Views\Home\Index2.cshtml" />

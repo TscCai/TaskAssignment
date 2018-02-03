@@ -1,0 +1,30 @@
+﻿@model IEnumerable<TaskAssignment.Persistence.Member>
+@{ 
+    Layout = null;
+}
+
+@foreach(var item in Model) {
+    <tr id="r_@item.Id">
+        <td>@item.Name</td>
+        @for (int i = 1; i <= 31; i++) {
+            var id = item.Id + "_d_" + i;
+            <td id="@id"></td>
+        }
+        <td id="total_@item.Id"></td><!-- for total count -->
+        <td id="late_@item.Id"></td>
+        <td id="personal_@item.Id"></td>
+        <td id="sick_@item.Id"></td>
+        <td id="comp_@item.Id"></td>
+        <td id="annual_@item.Id"></td>
+        <td id="wed_@item.Id"></td>
+        <td id="absent_@item.Id"></td>
+        <td id="maternity_@item.Id"></td>
+        <td id="nurse_@item.Id"></td>
+        <td id="injur_@item.Id"></td>
+        <td id="home_@item.Id"></td>
+        <td id="train_@item.Id"></td>
+        <td id="bussiness_@item.Id"></td>
+        <td id="other_@item.Id"></td>
+    </tr>
+}
+

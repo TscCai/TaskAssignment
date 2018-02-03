@@ -15,11 +15,29 @@ namespace TaskAssignment.Areas.Admin.Controllers
 
         // GET: Member
         [ChildActionOnly]
-        public ActionResult AllList()
-        {
+        public ActionResult AllList() {
             var ctx = new TaskAssignmentModel();
             var model = ctx.Members.DefaultIfEmpty();
-            return View("_AllList",model);
+            return View("_AllList", model);
+        }
+
+        [ChildActionOnly]
+        public ActionResult AttendanceMemberList() {
+            
+            
+            var ctx = new TaskAssignmentModel();
+            var model = ctx.Members.Where(m => m.Enable && m.IsInternal);
+            //List<object> data = null;
+            //if (model != null && model.Count() > 0) {
+            //    data = new List<object>();
+            //    foreach(var i in model) {
+            //        data.Add(new {Id=i.Id,Enable=i.Enable,Name=i.Name });
+            //    }
+            //}
+
+            //result.Data = data;
+            //return result;
+            return View(model);
         }
     }
 }

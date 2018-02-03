@@ -38,13 +38,13 @@
             var btn = $(e.relatedTarget),
                 id = btn.attr("id").split('_')[2];
             $("#delModal button[type='submit']").bind("click", function () {
-                location.href = location.protocol + "//" + location.host + "/Admin/Task/Delete/" + id;
+                location.href = location.protocol + "//" + location.host + "/Admin/Task/Delete/" + id+"?rtnact=Show";
             });
             // do your work
         })
 
-        var delModal = $("#editModal");
-        delModal.on("show.bs.modal", function (e) {
+        var editModal = $("#editModal");
+        editModal.on("show.bs.modal", function (e) {
             // 这里的btn就是触发元素，即你点击的删除按钮
             var btn = $(e.relatedTarget),
                 id = btn.attr("id").split('_')[2];
@@ -53,6 +53,7 @@
                 location.protocol + "//" + location.host + "/Admin/Task/Edit/" + id,
                 function (data) {
                     $("#editModal input[name='Task.Id']").val(data.Id);
+                    $("#editModal input[name='ReturnAction']").val("Show");
                     $("#editModal input[name='Task.Date']").val(data.Date);
                     $("#editModal select[name='Task.SubstationId'] option[value='" + data.SubstationId + "']")
                         .attr("selected", "selected");

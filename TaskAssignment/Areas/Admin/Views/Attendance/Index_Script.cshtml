@@ -1,0 +1,104 @@
+﻿<script>
+    function isWeekday(day) {
+        if (day.getDay() >= 1 && day.getDay() <= 5) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function getLastDate(date) {
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        var last;
+        if (month == 2) {
+            if (isLeapYear(year)) {
+                last = date.setDate(29);
+            }
+            else {
+                last = date.setDate(28);
+            }
+
+        }
+        else if (month == 4 || month == 6 || month == 9 || month == 11) {
+            last = date.setDate(30);
+
+        }
+        else {
+            last = date.setDate(31);
+
+        }
+        return new Date(last);
+    }
+
+    function isLeapYear(year) {
+        if (year % 100 == 0 && year % 400 == 0) {
+            return true;
+        }
+        else if (year % 100 != 0 && year % 4 == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function preMark(memberId) {
+        var date;
+        if ($("#dpkr_month").val() != "") {
+            var yr_mon = $("#dpkr_month").val().split('-');
+            date = new Date(Date.parse(yr_mon[0] + "-01-" + yr_mon[1]));
+            var d = 1;
+            var last = getLastDate(date);
+            do {
+                date.setDate(d);
+                if (isWeekday(date)) {
+                    $("#" + memberId + "_d_" + date.getDate()).html("√");
+                }
+                d++;
+            } while (last - date > 0);
+        }
+    }
+
+    $(function () {
+        $("#dpkr_month").datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            format: "mm-yyyy",
+
+            minViewMode: "months",
+            language: "zh-CN"
+        });
+
+        $("#btn_query").bind("click", function () {
+            $("tr[id^='r_']").each(function () {
+
+                preMark($(this).attr("id").split('_')[1]);
+            });
+            $.getJSON(
+            location.protocol + "//" + location.host + "/Attendance/Details/" + $("#dpkr_month").val(),
+            function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var att_id = [];
+                    if (data[i].TypeId <= 2) {
+                        // on work
+                        var start = new Date(Date.parse(data[i].Start)).getDate();
+                        var finish = new Date(Date.parse(data[i].Finish)).getDate();
+                        for (; start <= finish; start++) {
+                            $("#" + data[i].MemberId + "_d_" + start).html(data[i].Symbol);
+                        }
+                    }
+                    else {
+                        // off work
+                        var start = new Date(Date.parse(data[i].Start)).getDate();
+                        var finish = new Date(Date.parse(data[i].Finish)).getDate();
+                        for (; start <= finish; start++) {
+                            $("#" + data[i].MemberId+"_d_"+start).html(data[i].Symbol);
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>

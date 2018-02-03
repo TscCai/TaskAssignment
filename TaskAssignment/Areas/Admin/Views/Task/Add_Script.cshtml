@@ -35,8 +35,8 @@
             // do your work
         })
 
-        var delModal = $("#editModal");
-        delModal.on("show.bs.modal", function (e) {
+        var editModal = $("#editModal");
+        editModal.on("show.bs.modal", function (e) {
             // 这里的btn就是触发元素，即你点击的删除按钮
             var btn = $(e.relatedTarget),
                 id = btn.attr("id").split('_')[2]; 

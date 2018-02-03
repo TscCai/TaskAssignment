@@ -1,0 +1,76 @@
+﻿@model IEnumerable<TaskAssignment.Persistence.Task>
+@{
+    ViewBag.Title = "查询工作计划";
+    ViewBag.AppendixStyle = Styles.Render("~/plugins/css/addTasks");
+    ViewBag.AppendixScripts = Scripts.Render("~/plugins/js/addTasks");
+    ViewBag.PartialView = "Index_Script";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">工作安排查询</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input id="dpkr_month" class="form-control" data-val="true" name="Start" type="text" />
+                            <div class="input-group-btn">
+                                <button class="btn btn-success" id="btn_query">查询</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 form-group pull-right">
+                        <div class="input-group">
+                            <button class="btn btn-danger"><i class="fa fa-download"></i>&nbsp;&nbsp;导出 Excel</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <table id="tb_tasks" class="table table-bordered table-hover" width="100%">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        @for (int i = 1; i <= 31; i++) {
+                            <th>@i</th>
+                        }
+                        <th>出勤合计</th>
+                        <th colspan="14" align="center">缺勤合计</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>姓名</td>
+                        <td colspan="31"></td>
+                        <td></td>
+                        <td>迟到</td>
+                        <td>事假</td>
+                        <td>病假</td>
+                        <td>补休</td>
+                        <td>年休</td>
+                        <td>婚丧</td>
+                        <td>旷工</td>
+                        <td>产假</td>
+                        <td>护理假</td>
+                        <td>工伤</td>
+                        <td>探亲</td>
+                        <td>培训</td>
+                        <td>出差</td>
+                        <td>其他</td>
+                    </tr>
+                    @Html.Action("AttendanceMemberList", "Member")
+                </tbody>
+            </table>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</div>
+
