@@ -31,5 +31,25 @@ namespace TaskAssignment.Util
             }
             return date.AddDays(ds);
         }
+
+        public static DateTime LastDayOfMonth(this DateTime date) {
+            // 4,6,9,11
+            DateTime result;
+            if (date.Month == 2) {
+                if (DateTime.IsLeapYear(date.Year)) {
+                    result = new DateTime(date.Year, 2, 29);
+                }
+                else {
+                    result = new DateTime(date.Year, 2, 28);
+                }
+            }
+            else if(date.Month == 4 || date.Month == 6 || date.Month == 9 || date.Month == 11) {
+                result = new DateTime(date.Year, date.Month, 30);
+            }
+            else {
+                result = new DateTime(date.Year, date.Month, 31);
+            }
+            return result;
+        }
     }
 }
