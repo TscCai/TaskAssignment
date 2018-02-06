@@ -169,6 +169,9 @@ namespace TaskAssignment.Areas.Admin.Controllers
                 }
                 ctx.SaveChanges();
             }
+            if (string.IsNullOrEmpty(model.ReturnAction)) {
+                model.ReturnAction = "Add";
+            }
             return RedirectToAction(model.ReturnAction);
         }
 
