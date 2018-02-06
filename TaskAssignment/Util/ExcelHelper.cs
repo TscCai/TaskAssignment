@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -101,7 +101,7 @@ namespace TaskAssignment.Util
                 }
 
                 // <MemberId-TypeId, count> like "3-1",5
-                Dictionary<string, int> abseCnt = new Dictionary<string, int>();
+                Dictionary<string, int> attCnt = new Dictionary<string, int>();
                 // Read record, fill the table, update the work and absence details in memory
                 foreach (var item in record) {
                     long memberId = item.MemberId;
@@ -118,18 +118,37 @@ namespace TaskAssignment.Util
                         cnt++;
                     }
                     string key = memberId + "-" + typeId;
-                    if (!abseCnt.ContainsKey(key)) {
-                        abseCnt.Add(key, cnt);
+                    if (!attCnt.ContainsKey(key)) {
+                        attCnt.Add(key, cnt);
                     }
                     else {
-                        abseCnt[key] += cnt;
+                        attCnt[key] += cnt;
                     }
 
 
                 }
 
                 // Fill in the work & absence days count
-
+                foreach(var i in members){
+                    int workCnt = attCnt[i.Id+"-"+"1"] + attCnt[i.Id+"-"+"2"];
+                    ri = memberDict[i.Id];
+                    ci = pos_total_att[1];
+                    activeSheet.Cells[ri,ci]=workCnt;
+                    
+                }
+                
+                foreach(var i in attCnt){
+                    long memberId = (long)i.Key.Split("-")[0];
+                    long typeId = (long)i.Key.Split("-")[1];
+                    int cnt = i.Value;
+                    
+                    ri = memberDict[memberId];
+                    ci = attTypeDict[typeId];
+                    activeSheet.Cells[ri,ci] = cnt;
+                }
+                
+                // Save changes
+                activeSheet.SaveAs(filename);
             }
             catch (Exception ex) {
 
