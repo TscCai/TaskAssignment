@@ -14,7 +14,7 @@
 			<!-- /.box-header -->
 			<div class="box-body">
 				<div class="row">
-					@using (Html.BeginForm("Absent","Attendance",FormMethod.Get))
+					@using (Html.BeginForm("Absent", "Attendance", FormMethod.Get))
 					{
 						<div class="form-group col-md-3">
 							<div class="input-group input-daterange">
@@ -28,7 +28,7 @@
 							</div>
 						</div>
 					}
-					
+
 				</div>
 
 			</div>
@@ -80,59 +80,65 @@
 				<h3 class="box-title">新增休假 & 培训记录</h3>
 			</div>
 			<div class="box-body">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label>时间：</label>
-							<div class="input-group input-daterange">
-								<div class="input-group-addon">
-									<i class="fa fa-calendar"></i>
+				@using (Html.BeginForm("Add", "Attendance"))
+				{
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>时间：</label>
+								<div class="input-group input-daterange">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input type="text" name="ReturnAction" value="Absent/@ViewBag.Date" style="display:none" />
+									<input id="dpkr_start" class="form-control" data-val="true" name="Attendance.StartDate" type="text" value="@ViewBag.Start" />
+									<div class="input-group-addon" style="border:none">至</div>
+									<input id="dpkr_finish" name="Attendance.FinishDate" data-val="true" type="text" class="form-control" value="@ViewBag.Finish" />
 								</div>
-								<input type="text" name="Id" style="display:none" />
-								<input type="text" name="ReturnAction" style="display:none" />
-								<input class="form-control" data-val="true" name="StartDate" type="text" value="@ViewBag.Start" />
-								<div class="input-group-addon" style="border:none">至</div>
-								<input name="FinishDate" data-val="true" type="text" class="form-control" value="@ViewBag.Finish" />
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>姓名：</label>
-							<div class="input-group">
-								<div class="input-group-addon">
-									<i class="fa fa-user"></i>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>姓名：</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-user"></i>
+									</div>
+									<select name="Attendance.MemberId" class="form-control select2" style="width: 100%;">
+										@Html.Action("AllList", "Member")
+									</select>
 								</div>
-								<select name="MemberId" class="form-control select2" style="width: 100%;">
-									@Html.Action("AllList", "Member")
-								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>类型：</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-user"></i>
+									</div>
+									<select name="Attendance.TypeId" class="form-control select2" style="width: 100%;">
+										@Html.Action("TypeList", "Attendance", new { id = "absent" })
+									</select>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>类型：</label>
-							<div class="input-group">
-								<div class="input-group-addon">
-									<i class="fa fa-user"></i>
-								</div>
-								<select name="TypeId" class="form-control select2" style="width: 100%;">
-									@Html.Action("TypeList", "Attendance", new { id = "absent" })
-								</select>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>说明：</label>
+								<textarea name="Attendance.Comments" class="form-control" rows="8" placeholder="输入说明或备注 ..."></textarea>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label>说明：</label>
-							<textarea name="Task.Content" class="form-control" rows="8" placeholder="输入说明或备注 ..."></textarea>
-						</div>
+					<div class="box-footer">
+						<button type="submit" class="btn btn-primary pull-right">确&nbsp;&nbsp;认</button>
 					</div>
-				</div>
+				}
+
 			</div>
 		</div>
 	</div>

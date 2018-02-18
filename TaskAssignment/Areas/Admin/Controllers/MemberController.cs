@@ -39,5 +39,25 @@ namespace TaskAssignment.Areas.Admin.Controllers
             //return result;
             return View(model);
         }
+		
+		public JsonResult UnavailableMemberList(DateTime id)
+		{
+			JsonResult result = new JsonResult();
+			result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+			var ctx = new TaskAssignmentModel();
+
+			var tmp = ctx.Attendances.Where(att => att.StartDate <= id && att.FinishDate >= id && att.AttendanceType.IsAbcense).ToArray();
+			if (tmp.Count() > 0)
+			{
+				long[] mIds = new long[tmp.Count()];
+				for (int i = 0; i < mIds.Length; i++)
+				{
+					mIds[i] = tmp[i].MemberId;
+				}
+				result.Data = mIds;
+			}
+			return result;
+			
+		}
     }
 }
