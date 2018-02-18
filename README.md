@@ -6,8 +6,10 @@ To assign works in an easy way.
 The project is now on working.
 
 **Dev Logs**: 
+
 2018-02-18: All date-query-based request should change to GET method. (refers to Absent.cshtml and AttendanceController.Add()).
 
 **Dev Info & Details**:
+
 Absence info are written directly into Table "Attendance".
 Normal works are wriiten both in Table "Assign" and "Attendance".
