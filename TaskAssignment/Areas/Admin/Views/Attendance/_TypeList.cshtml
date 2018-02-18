@@ -1,0 +1,12 @@
+﻿
+@model IEnumerable<TaskAssignment.Persistence.AttendanceType>
+@{
+	Layout = null;
+}
+@{
+	foreach (var item in Model)
+	{
+		<option value="@item.Id">@item.TypeName</option>
+	}
+
+}

@@ -21,6 +21,9 @@ namespace TaskAssignment.Persistence
 
         public DateTime FinishDate { get; set; }
 
+		[MaxLength(255)]
+		public string Comments { get; set; }
+
         public virtual AttendanceType AttendanceType { get; set; }
 
         public virtual Member Member { get; set; }

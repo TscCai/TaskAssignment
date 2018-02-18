@@ -309,18 +309,7 @@
                 </form>
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
-                <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">导航菜单</li>
-                    <li>
-                        <a href="@Url.Action("Index","Admin")">
-                            <i class="fa fa-dashboard"></i> <span>工作一览</span>   
-                        </a>
-                    </li>
-                    <li><a href="@Url.Action("Add","Task")"><i class="fa fa-plus"></i> <span>新增工作</span></a></li>
-                    <li><a href="@Url.Action("Show","Task")"><i class="fa fa-list-ol"></i> <span>工作计划查询</span></a></li>
-                    <li><a href="@Url.Action("Index","Attendance")"><i class="fa fa-binoculars"></i> <span>月度考勤</span></a></li>
-                    <li><a href="@Url.Action("Index","Member")"><i class="fa fa-users"></i> <span>班组成员管理</span></a></li>
-                </ul>
+				@Html.Partial("MainSidebar")
             </section>
             <!-- /.sidebar -->
         </aside>

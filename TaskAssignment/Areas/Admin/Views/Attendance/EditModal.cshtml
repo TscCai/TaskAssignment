@@ -1,0 +1,73 @@
+﻿
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="取消"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改休假 & 培训记录</h4>
+            </div>
+            @using (Html.BeginForm("Edit", "Attendance")) {
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>时间：</label>
+								<div class="input-group input-daterange">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input type="text" name="Attendance.Id" style="display:none" />
+									<input type="text" name="ReturnAction" style="display:none" />
+									<input id="dpkr_mstart" class="form-control" data-val="true" name="Attendance.StartDate" type="text" value="@ViewBag.Start" />
+									<div class="input-group-addon" style="border:none">至</div>
+									<input id="dpkr_mfinish" name="Attendance.FinishDate" data-val="true" type="text" class="form-control" value="@ViewBag.Finish" />
+								</div>
+                            </div>
+                        </div>     
+                    </div>              
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>姓名：</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+									<select name="Attendance.MemberId" class="form-control select2" style="width: 100%;">
+										@Html.Action("AllList", "Member")
+									</select>
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>类型：</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-user"></i>
+									</div>
+									<select name="Attendance.TypeId" class="form-control select2" style="width: 100%;">
+										@Html.Action("TypeList", "Attendance", new { id = "absent" })
+									</select>
+								</div>
+							</div>
+						</div>      
+                    </div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>说明：</label>
+								<textarea name="Attendance.Comments" class="form-control" rows="8" placeholder="输入说明或备注 ..."></textarea>
+							</div>
+						</div>
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -375,6 +375,7 @@
     <Compile Include="Areas\Admin\Controllers\SubstationController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaskController.cs" />
     <Compile Include="Areas\Admin\Models\DateRange.cs" />
+    <Compile Include="Areas\Admin\Models\AddAbsence.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MemberController.cs" />
     <Compile Include="Global.asax.cs">
@@ -399,7 +400,6 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="App_Data\TasAssignment.db" />
-    <Content Include="Views\Home\Temp.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MMddFormater.cshtml" />
     <Content Include="Content\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Content\plugins\input-mask\phone-codes\phone-codes.json" />
@@ -434,9 +434,13 @@
     <Content Include="Areas\Admin\Views\Attendance\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Attendance\Index_Script.cshtml" />
     <Content Include="Areas\Admin\Views\Member\AttendanceMemberList.cshtml" />
+    <Content Include="Areas\Admin\Views\Attendance\Absent.cshtml" />
+    <Content Include="Areas\Admin\Views\Attendance\DelModal.cshtml" />
+    <Content Include="Areas\Admin\Views\Attendance\EditModal.cshtml" />
+    <Content Include="Areas\Admin\Views\Attendance\Absent_Script.cshtml" />
+    <Content Include="Areas\Admin\Views\Attendance\_TypeList.cshtml" />
     <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\Home-Server FTP.pubxml" />
-    <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_ViewStart.cshtml" />
@@ -450,6 +454,8 @@
     <Content Include="Areas\Admin\Views\Substation\_List.cshtml" />
     <Content Include="Areas\Admin\Views\Member\_AllList.cshtml" />
     <Content Include="Areas\Admin\Views\Member\Index.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\MainSidebar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -458,6 +464,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Admin\Views\EditAbsence\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

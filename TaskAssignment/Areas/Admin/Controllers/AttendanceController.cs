@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TaskAssignment.Persistence;
+using TaskAssignment.Areas.Admin.Models;
 
 namespace TaskAssignment.Areas.Admin.Controllers
 {
@@ -13,6 +14,88 @@ namespace TaskAssignment.Areas.Admin.Controllers
         public ActionResult Index() {
             return View();
         }
+
+		public JsonResult AbsentList(DateTime id)
+		{
+			return null;
+		}
+
+		
+		public ActionResult Absent(DateTime? id)
+		{
+			// id refers to the objective month
+			if (!id.HasValue)
+			{
+				return View();
+			}
+			else
+			{
+				int month = id.Value.Month;
+				var ctx = new TaskAssignmentModel();
+				var model = ctx.Attendances.Where(att => att.AttendanceType.IsAbcense && att.StartDate.Month == month);
+				ViewBag.Date = id.Value.ToString("yyyy-MM");
+				return View(model);
+			}
+		}
+
+		[ChildActionOnly]
+		public ActionResult TypeList(string id)
+		{
+			var ctx = new TaskAssignmentModel();
+			IQueryable<AttendanceType> model = null;
+			if (id != "absent")
+			{
+				model = ctx.AttendanceTypes.DefaultIfEmpty();
+			}
+			else
+			{
+				model = ctx.AttendanceTypes.Where(type => type.IsAbcense);
+			}
+			
+			return View("_TypeList", model);
+		}
+
+		[HttpGet]
+		public JsonResult Edit(long id)
+		{
+			var ctx = new TaskAssignmentModel();
+			var absence = ctx.Attendances.SingleOrDefault(att => att.Id == id);
+			JsonResult result = new JsonResult();
+			result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+			result.ContentEncoding = System.Text.Encoding.UTF8;
+			// start, finish date, name, typename, comment
+			result.Data = new {
+				Id = absence.Id,
+				StartDate=absence.StartDate.ToString("yyyy-MM-dd"),
+				FinishDate=absence.FinishDate.ToString("yyyy-MM-dd"),
+				MemberId=absence.MemberId,
+				TypeId=absence.TypeId,
+				Comments=absence.Comments 
+			};
+			return result;
+		}
+
+		[HttpPost]
+		public ActionResult Edit(AddAbsence model){
+			var ctx = new TaskAssignmentModel();
+			var item = ctx.Attendances.SingleOrDefault(abs => abs.Id == model.Attendance.Id);
+			item.MemberId = model.Attendance.MemberId;
+			item.StartDate = model.Attendance.StartDate;
+			item.FinishDate = model.Attendance.FinishDate;
+			item.TypeId = model.Attendance.TypeId;
+			item.Comments = model.Attendance.Comments;
+
+			ctx.SaveChanges();
+
+			string[] url = model.ReturnAction.Split('?');
+			return RedirectToAction(url[0], new { id = url[1].Split('=')[1] });
+				
+		}
+
+		public ActionResult Add(AddAbsence model)
+		{
+			return null;
+		}
 
         public JsonResult Details(string id) {
             

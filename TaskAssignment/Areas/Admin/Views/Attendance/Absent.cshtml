@@ -1,0 +1,141 @@
+﻿@model IEnumerable<TaskAssignment.Persistence.Attendance>
+@{
+	ViewBag.Title = "休假 & 培训";
+	ViewBag.AppendixStyle = Styles.Render("~/plugins/css/addTasks");
+	ViewBag.AppendixScripts = Scripts.Render("~/plugins/js/addTasks");
+	ViewBag.PartialView = "Absent_Script";
+}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">休假 & 培训查询</h3>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body">
+				<div class="row">
+					@using (Html.BeginForm("Absent","Attendance",FormMethod.Get))
+					{
+						<div class="form-group col-md-3">
+							<div class="input-group input-daterange">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input id="dpkr_month" class="form-control" data-val="true" name="id" type="text" value="@ViewBag.Date" />
+								<div class="input-group-btn">
+									<button type="submit" class="btn btn-success">查询</button>
+								</div>
+							</div>
+						</div>
+					}
+					
+				</div>
+
+			</div>
+			<table id="tb_absent" class="table table-bordered table-hover" width="100%">
+				<thead>
+					<tr>
+						<th>时间</th>
+						<th>姓名</th>
+						<th>说明</th>
+						<th>类型</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					@{ if (Model != null)
+					 {
+						 foreach (var item in Model)
+						 {
+							<tr>
+								<td>@item.StartDate.ToString("MM月dd日")~@item.FinishDate.ToString("MM月dd日")</td>
+								<td>@item.Member.Name</td>
+								<td>@item.Comments</td>
+								<td>@item.AttendanceType.TypeName</td>
+								<td>
+									<div class="tools">
+										<button id="btn_edit_@item.Id" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editModal">
+											<i class="fa fa-edit"></i>&nbsp;编&nbsp;辑&nbsp;
+										</button>
+										<button id="btn_del_@item.Id" class="btn btn-danger btn-xs pull-right" data-toggle="modal" data-target="#delModal">
+											<i class="fa fa-trash-o"></i>&nbsp;删&nbsp;除&nbsp;
+										</button>
+									</div>
+								</td>
+							</tr>
+						 }
+					 }
+					}
+				</tbody>
+			</table>
+		</div>
+		<!-- /.box-body -->
+	</div>
+	<!-- /.box -->
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">新增休假 & 培训记录</h3>
+			</div>
+			<div class="box-body">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>时间：</label>
+							<div class="input-group input-daterange">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input type="text" name="Id" style="display:none" />
+								<input type="text" name="ReturnAction" style="display:none" />
+								<input class="form-control" data-val="true" name="StartDate" type="text" value="@ViewBag.Start" />
+								<div class="input-group-addon" style="border:none">至</div>
+								<input name="FinishDate" data-val="true" type="text" class="form-control" value="@ViewBag.Finish" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>姓名：</label>
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-user"></i>
+								</div>
+								<select name="MemberId" class="form-control select2" style="width: 100%;">
+									@Html.Action("AllList", "Member")
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>类型：</label>
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-user"></i>
+								</div>
+								<select name="TypeId" class="form-control select2" style="width: 100%;">
+									@Html.Action("TypeList", "Attendance", new { id = "absent" })
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>说明：</label>
+							<textarea name="Task.Content" class="form-control" rows="8" placeholder="输入说明或备注 ..."></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@Html.Partial("EditModal")
+@Html.Partial("DelModal")

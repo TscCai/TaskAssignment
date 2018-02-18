@@ -1,0 +1,76 @@
+﻿<script>
+	$(function () {
+		$('.select2').select2();
+		$('#tb_absent').DataTable({
+			"columnDefs": [
+                { "width": "12%", "targets": 0 },
+				{ "width": "15%", "targets": 1 },
+				{ "width": "15%", "targets": 4 }
+			],
+			'autoWidth': true,
+			'lengthChange': false,
+			'ordering': false,
+			'info': false
+		});
+
+        $("#dpkr_month").datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            format: "yyyy-mm",
+
+            minViewMode: "months",
+            language: "zh-CN"
+        });
+
+		// for modal datepicker
+        $("#dpkr_mstart").datepicker({
+        	autoclose: true,
+        	todayHighlight: true,
+			language:"zh-CN"
+        });
+
+        $("#dpkr_mfinish").datepicker({
+        	autoclose: true,
+        	todayHighlight: true,
+        	language: "zh-CN"
+        });
+
+        var delModal = $("#delModal");
+        delModal.on("show.bs.modal", function (e) {
+        	// 这里的btn就是触发元素，即你点击的删除按钮
+        	var btn = $(e.relatedTarget),
+                id = btn.attr("id").split('_')[2];
+        	$("#delModal button[type='submit']").bind("click", function () {
+        		location.href = location.protocol + "//" + location.host + "/Admin/Attendance/Delete/" + id + "?rtnact=Show";
+        	});
+        	// do your work
+        })
+
+        var editModal = $("#editModal");
+        editModal.on("show.bs.modal", function (e) {
+        	// 这里的btn就是触发元素，即你点击的删除按钮
+        	var btn = $(e.relatedTarget),
+                id = btn.attr("id").split('_')[2];
+        	// do your work
+        	$.getJSON(
+                location.protocol + "//" + location.host + "/Admin/Attendance/Edit/" + id,
+                function (data) {
+                	$("#editModal input[name='Attendance.Id']").val(data.Id);
+                	$("#editModal input[name='ReturnAction']").val("Absent?Id=" + "@ViewBag.Date");
+                	$("#editModal input[name='Attendance.StartDate']").datepicker("setDate", data.StartDate);
+                
+                	$("#editModal input[name='Attendance.FinishDate']").datepicker("setDate", data.FinishDate);
+
+                	$("#editModal textarea").html(data.Comments);
+
+                	$("#editModal select[name='Attendance.TypeId']").val(data.TypeId);
+                	$("#editModal select[name='Attendance.TypeId']").trigger("change");
+                	$("#editModal select[name='Attendance.MemberId']").val(data.MemberId);
+                	$("#editModal select[name='Attendance.MemberId']").trigger("change");
+                });
+        })
+
+
+
+    });
+</script>

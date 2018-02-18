@@ -3,13 +3,13 @@
         $('.select2').select2();
         $('#tb_tasks').DataTable({
             "columnDefs": [
-                { "width": "8%", "targets": 0 },
+                { "width": "9%", "targets": 0 },
                 { "width": "4%", "targets": 1 },
                 { "width": "4%", "targets": 2 },
-                { "width": "5%", "targets": 3 },
+                { "width": "6%", "targets": 3 },
                 { "width": "4%", "targets": 4 },
                 { "width": "30%", "targets": 5 },
-                { "width": "35%", "targets": 6 }
+                { "width": "30%", "targets": 6 }
             ],
             'autoWidth': true,
             'lengthChange': false,
@@ -24,7 +24,7 @@
             $(this).datepicker({
                 autoclose: true,
                 todayHighlight: true,
-                format: "mm-yyyy",
+                format: "yyyy-mm",
                  
                 minViewMode: "months",
                 language: "zh-CN"
