@@ -12,6 +12,7 @@ namespace TaskAssignment.Persistence
         public Task()
         {
             Assigns = new HashSet<Assign>();
+            Attendances = new HashSet<Attendance>();
         }
 
         public long Id { get; set; }
@@ -32,6 +33,9 @@ namespace TaskAssignment.Persistence
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Assign> Assigns { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attendance> Attendances { get; set; }
 
         public virtual Substation Substation { get; set; }
 

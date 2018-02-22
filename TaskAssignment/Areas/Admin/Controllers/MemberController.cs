@@ -46,7 +46,7 @@ namespace TaskAssignment.Areas.Admin.Controllers
 			result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 			var ctx = new TaskAssignmentModel();
 
-			var tmp = ctx.Attendances.Where(att => att.StartDate <= id && att.FinishDate >= id && att.AttendanceType.IsAbcense).ToArray();
+			var tmp = ctx.Attendances.Where(att => att.StartDate <= id && att.FinishDate >= id && att.AttendanceType.IsAbsent).ToArray();
 			if (tmp.Count() > 0)
 			{
 				long[] mIds = new long[tmp.Count()];

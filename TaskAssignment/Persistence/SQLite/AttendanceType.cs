@@ -21,8 +21,9 @@ namespace TaskAssignment.Persistence
         [StringLength(10)]
         public string TypeName { get; set; }
 
-        public bool IsAbcense { get; set; }
+        public bool IsAbsent { get; set; }
 
+        [Required]
         [StringLength(15)]
         public string Alias { get; set; }
 

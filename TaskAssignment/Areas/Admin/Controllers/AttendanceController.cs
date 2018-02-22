@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TaskAssignment.Persistence;
 using TaskAssignment.Areas.Admin.Models;
+using TaskAssignment.Util;
 
 namespace TaskAssignment.Areas.Admin.Controllers
 {
@@ -33,13 +34,48 @@ namespace TaskAssignment.Areas.Admin.Controllers
 			{
 				int month = id.Value.Month;
 				var ctx = new TaskAssignmentModel();
-				var model = ctx.Attendances.Where(att => att.AttendanceType.IsAbcense && att.StartDate.Month == month);
+				var model = ctx.Attendances.Where(att => att.AttendanceType.IsAbsent && att.StartDate.Month == month);
 				ViewBag.Date = id.Value.ToString("yyyy-MM");
 				return View(model);
 			}
 		}
 
-		[ChildActionOnly]
+        [HttpPost]
+        public ActionResult Export(DateTime id) {
+            string template = Server.MapPath("~/Content/templates/template-attendance.xlsx");
+            string exported = Server.MapPath("~/Content/exported/"+ "考勤记录-" + id.ToString("yyyy-MM-dd") + ".xlsx");
+            var ctx = new TaskAssignmentModel();
+            var members = ctx.Members.Where(m => m.IsInternal && m.Enable);
+            var record = ctx.Attendances.Where(att => att.StartDate.Month == id.Month && att.StartDate.Year == id.Year);
+            var absType = ctx.AttendanceTypes.Where(t=>t.IsAbsent);
+            var t_holidays = ctx.Holidays.SingleOrDefault(h => h.Year == id.Year);
+            var thd = t_holidays.Holidays.Split(';').Where(h=>h.StartsWith(id.ToString("MM")+"-")).ToArray();
+            var tex = t_holidays.ExtraWorkdays.Split(';').Where(e => e.StartsWith(id.ToString("MM") + "-")).ToArray();
+
+            int[] holidays =new int[thd.Count()];
+            int[] extraWorkdays = new int[tex.Count()];
+            for(int i = 0; i < holidays.Length; i++) {
+                holidays[i] = Convert.ToInt32(thd[i].Substring(3));
+            }
+            for(int i=0; i < extraWorkdays.Length; i++) {
+                extraWorkdays[i] = Convert.ToInt32(tex[i].Substring(3));
+            }
+
+            ExcelHelper.Export(id,members,record,absType,holidays,extraWorkdays, template,exported);
+            GC.Collect();
+
+            FilePathResult r;
+            if (System.IO.File.Exists(exported)) {
+                r = new FilePathResult(exported, ExcelHelper.XlsxContentType);
+                r.FileDownloadName = "考勤记录-" + id.ToString("yyyy-MM-dd") + ".xlsx";
+                return r;
+            }
+            else {
+                return RedirectToAction("Error");
+            }
+        }
+
+        [ChildActionOnly]
 		public ActionResult TypeList(string id)
 		{
 			var ctx = new TaskAssignmentModel();
@@ -50,7 +86,7 @@ namespace TaskAssignment.Areas.Admin.Controllers
 			}
 			else
 			{
-				model = ctx.AttendanceTypes.Where(type => type.IsAbcense);
+				model = ctx.AttendanceTypes.Where(type => type.IsAbsent);
 			}
 
 			return View("_TypeList", model);

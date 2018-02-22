@@ -385,6 +385,7 @@
     <Compile Include="Persistence\SQLite\Assign.cs" />
     <Compile Include="Persistence\SQLite\Attendance.cs" />
     <Compile Include="Persistence\SQLite\AttendanceType.cs" />
+    <Compile Include="Persistence\SQLite\Holiday.cs" />
     <Compile Include="Persistence\SQLite\Location.cs" />
     <Compile Include="Persistence\SQLite\Member.cs" />
     <Compile Include="Persistence\SQLite\Substation.cs" />
@@ -464,7 +465,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Admin\Views\EditAbsence\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<TaskAssignment.Persistence.Task>
 @{
-    ViewBag.Title = "查询工作计划";
+    ViewBag.Title = "月度考勤";
     ViewBag.AppendixStyle = Styles.Render("~/plugins/css/addTasks");
     ViewBag.AppendixScripts = Scripts.Render("~/plugins/js/addTasks");
     ViewBag.PartialView = "Index_Script";
@@ -9,28 +9,31 @@
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">工作安排查询</h3>
+                <h3 class="box-title">月度考勤</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
-                    <div class="form-group col-md-3">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input id="dpkr_month" class="form-control" data-val="true" name="Start" type="text" />
-                            <div class="input-group-btn">
-                                <button class="btn btn-success" id="btn_query">查询</button>
+                    @using (Html.BeginForm("Export", "Attendance")) {
+                        <div class="form-group col-md-3">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input id="dpkr_month" class="form-control" data-val="true" name="id" type="text" />
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-success" id="btn_query">查询</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-2 form-group pull-right">
-                        <div class="input-group">
-                            <button class="btn btn-danger"><i class="fa fa-download"></i>&nbsp;&nbsp;导出 Excel</button>
+                        <div class="col-md-2 form-group pull-right">
+                            <div class="input-group">
+                                <button type="submit" id="btn_export" class="btn btn-danger"><i class="fa fa-download"></i>&nbsp;&nbsp;导出 Excel</button>
+                            </div>
                         </div>
-                    </div>
+                    }
+
                 </div>
 
             </div>

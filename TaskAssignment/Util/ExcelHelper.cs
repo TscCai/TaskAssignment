@@ -10,25 +10,30 @@ namespace TaskAssignment.Util
 {
     public class ExcelHelper
     {
+        public static string XlsxContentType { get { return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"; } }
+
         /// <summary>
         /// Export attendance records to xlsx file using Micorsoft.Office.Interop.Excel
         /// </summary>
-        /// <param name="attendanceTime"></param>
+        /// <param name="attendanceTime">Only the month matters</param>
         /// <param name="members"></param>
         /// <param name="record"></param>
         /// <param name="template"></param>
         /// <returns></returns>
-        public static string Export(DateTime attendanceTime, IEnumerable<Member> members, IEnumerable<Attendance> record, IEnumerable<AttendanceType> attType, int[] holidays, int[] extraWorkdays, string template) {
-            string filename = AppDomain.CurrentDomain.BaseDirectory + "\\考勤记录-" + attendanceTime.ToString("yyyy-MM-dd") + ".xlsx";
+        public static void Export(DateTime attendanceTime, IEnumerable<Member> members, IEnumerable<Attendance> record,
+            IEnumerable<AttendanceType> attType, int[] holidays, int[] extraWorkdays, string template, string filename) {
+
             if (File.Exists(filename)) {
                 File.Delete(filename);
             }
             var app = new Application();
+            Workbook wb = null;
+            Worksheet activeSheet = null;
             app.Visible = false;
             try {
-                app.Workbooks.Open(template);
+                wb = app.Workbooks.Open(template);
                 // Sheet 1 start as index 1
-                Worksheet activeSheet = app.Worksheets[1];
+                activeSheet = app.Worksheets[1];
                 activeSheet.Activate();
                 // Cell Position Definition, int[] {row, col}
                 int[] pos_department = new int[] { 2, 2 };
@@ -63,15 +68,17 @@ namespace TaskAssignment.Util
 
                 // Delete the redundant date cols acorrding to attandanceTime
                 int lastDay = DateTime.DaysInMonth(attendanceTime.Year, attendanceTime.Month);
-                for (int i = maxDayOfMonth + date_offset; i > lastDay; i--) {
+                for (int i = maxDayOfMonth + date_offset; i > lastDay + date_offset; i--) {
                     activeSheet.Columns[i].Delete(XlDeleteShiftDirection.xlShiftToLeft);
+                    pos_total_att[1]--;
                 }
+                pos_absence[1] = pos_total_att[1] + 1;
                 // Fill in the absent type header, create a dictionary<typeId, col_index>
-                Dictionary<long, int> attTypeDict = new Dictionary<long, int>();
+                Dictionary<long, int> absTypeDict = new Dictionary<long, int>();
                 ci = pos_absence[1];
                 foreach (var i in attType) {
                     activeSheet.Cells[pos_absence[0], ci] = i.TypeName;
-                    attTypeDict.Add(i.Id, ci);
+                    absTypeDict.Add(i.Id, ci);
                     ci++;
                 }
 
@@ -86,22 +93,26 @@ namespace TaskAssignment.Util
                     activeSheet.Rows[ri].Insert(XlInsertShiftDirection.xlShiftDown);
                 }
                 activeSheet.Rows[ri].Delete(XlDeleteShiftDirection.xlShiftUp);
-                int lastNameRow = ri--;
+                int lastNameRow = ri - 1;
 
                 // Mark all workdays as "on work" for all members, including the extra workDays but excluding the holidays
                 string defaultSymbol = "√";
+                int workdayCnt = 0;
                 for (int day = 1; day <= lastDay; day++) {
                     DateTime flag = new DateTime(attendanceTime.Year, attendanceTime.Month, day);
                     ci = pos_date[1] + day - 1;
                     if (IsWorkday(flag, holidays, extraWorkdays)) {
                         for (ri = pos_names[0]; ri <= lastNameRow; ri++) {
                             activeSheet.Cells[ri, ci] = defaultSymbol;
+                            
                         }
+                        workdayCnt++;
                     }
                 }
+                //workdayCnt = workdayCnt/lastDay + 1;
 
                 // <MemberId-TypeId, count> like "3-1",5
-                Dictionary<string, int> attCnt = new Dictionary<string, int>();
+                Dictionary<string, int> attCntDict = new Dictionary<string, int>();
                 // Read record, fill the table, update the work and absence details in memory
                 foreach (var item in record) {
                     long memberId = item.MemberId;
@@ -118,35 +129,49 @@ namespace TaskAssignment.Util
                         cnt++;
                     }
                     string key = memberId + "-" + typeId;
-                    if (!attCnt.ContainsKey(key)) {
-                        attCnt.Add(key, cnt);
+                    if (!attCntDict.ContainsKey(key)) {
+                        attCntDict.Add(key, cnt);
                     }
                     else {
-                        attCnt[key] += cnt;
+                        attCntDict[key] += cnt;
                     }
 
 
                 }
 
-                // Fill in the work & absence days count
-                foreach(var i in members){
-                    int workCnt = attCnt[i.Id+"-"+"1"] + attCnt[i.Id+"-"+"2"];
+                // Fill in the work
+                foreach (var i in members) {
+                    int attCnt = 0;
+                    if (attCntDict.ContainsKey(i.Id + "-1")) {
+                        attCnt += attCntDict[i.Id + "-1"];
+                    }
+                    if (attCntDict.ContainsKey(i.Id + "-2")) {
+                        attCnt += attCntDict[i.Id + "-2"];
+                    }
+                    attCnt = workdayCnt;
                     ri = memberDict[i.Id];
                     ci = pos_total_att[1];
-                    activeSheet.Cells[ri,ci]=workCnt;
-                    
+                    activeSheet.Cells[ri, ci] = attCnt;
+
                 }
-                
-                foreach(var i in attCnt){
-                    long memberId = Convert.ToInt64(i.Key.Split('-')[0]);
+
+                // Fill in the absent days
+                foreach (var i in attCntDict.Where(dict => !dict.Key.EndsWith("-1") && !dict.Key.EndsWith("-2"))) {
                     long typeId = Convert.ToInt64(i.Key.Split('-')[1]);
+                    long memberId = Convert.ToInt64(i.Key.Split('-')[0]);
                     int cnt = i.Value;
-                    
+
                     ri = memberDict[memberId];
-                    ci = attTypeDict[typeId];
-                    activeSheet.Cells[ri,ci] = cnt;
+                    ci = absTypeDict[typeId];
+                    activeSheet.Cells[ri, ci] = cnt;
+
+                    // update the att
+                    ri = memberDict[memberId];
+                    ci = pos_total_att[1];
+                    activeSheet.Cells[ri, ci] = (int)activeSheet.Cells[ri, ci].Value - cnt;
+
                 }
-                
+
                 // Save changes
                 activeSheet.SaveAs(filename);
             }
@@ -157,7 +182,6 @@ namespace TaskAssignment.Util
                 app.Workbooks.Close();
                 app.Quit();
             }
-            return "";
         }
 
         /// <summary>
@@ -254,9 +278,14 @@ namespace TaskAssignment.Util
         }
 
         static bool IsWorkday(DateTime date, int[] holidays, int[] extraWorkdays) {
-
-            bool result = (date.DayOfWeek != DayOfWeek.Sunday && date.DayOfWeek != DayOfWeek.Saturday && !holidays.Contains(date.Day)) ||
-                     (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday && extraWorkdays.Contains(date.Day));
+            bool result = false;
+            if (holidays != null && extraWorkdays != null) {
+                result = (date.DayOfWeek != DayOfWeek.Sunday && date.DayOfWeek != DayOfWeek.Saturday && !holidays.Contains(date.Day)) ||
+                         ((date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday) && extraWorkdays.Contains(date.Day));
+            }
+            else {
+                result = date.DayOfWeek != DayOfWeek.Sunday && date.DayOfWeek != DayOfWeek.Saturday;
+            }
             return result;
         }
     }

@@ -14,6 +14,7 @@ namespace TaskAssignment.Persistence
         public virtual DbSet<Assign> Assigns { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<AttendanceType> AttendanceTypes { get; set; }
+        public virtual DbSet<Holiday> Holidays { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Substation> Substations { get; set; }

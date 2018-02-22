@@ -290,3 +290,5 @@ __pycache__/
 /TaskAssignment/plugins
 /TaskAssignment/dist
 /TaskAssignment/bower_components
+/TaskAssignment/Content/exported
+/TaskAssignment/Content/templates
