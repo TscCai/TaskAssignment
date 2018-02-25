@@ -62,7 +62,7 @@ namespace TaskAssignment.Areas.Admin.Controllers
             }
 
             ExcelHelper.Export(id,members,record,absType,holidays,extraWorkdays, template,exported);
-            GC.Collect();
+            //GC.Collect();
 
             FilePathResult r;
             if (System.IO.File.Exists(exported)) {
