@@ -20,9 +20,9 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input class="form-control" data-val="true" name="Start" type="text" value="@ViewBag.Start" />
+                                <input id="txt_start" name="Start" class="form-control" data-val="true" type="text" value="@ViewBag.Start" />
                                 <div class="input-group-addon" style="border:none">至</div>
-                                <input name="Finish" data-val="true" type="text" class="form-control" value="@ViewBag.Finish" />
+                                <input id="txt_finish" name="Finish" class="form-control" data-val="true" type="text" value="@ViewBag.Finish" />
                                 <div class="input-group-btn">
                                     <button type="submit" class="btn btn-success">查询</button>
                                 </div>
@@ -31,7 +31,7 @@
                     }
                     <div class="col-md-2 form-group pull-right">
                         <div class="input-group">
-                            <button class="btn btn-danger"><i class="fa fa-download"></i>&nbsp;&nbsp;导出 Excel</button>
+                            <button id="btn_export" class="btn btn-danger"><i class="fa fa-download"></i>&nbsp;&nbsp;导出 Excel</button>
                         </div>
                     </div>
                 </div>

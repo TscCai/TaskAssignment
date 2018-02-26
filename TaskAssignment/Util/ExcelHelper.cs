@@ -12,6 +12,14 @@ namespace TaskAssignment.Util
     {
         public static string XlsxContentType { get { return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"; } }
         private static Application app = null;
+
+        static void InitApplication() {
+            if (app == null) {
+                app = new Application();
+                app.Visible = false;
+            }
+        }
+        
         /// <summary>
         /// Export attendance records to xlsx file using Micorsoft.Office.Interop.Excel
         /// </summary>
@@ -28,9 +36,7 @@ namespace TaskAssignment.Util
             }
             object o = new object();
             lock (o) {
-                if (app == null) {
-                    app = new Application();
-                }
+                InitApplication();
                 Workbook wb = null;
                 Worksheet activeSheet = null;
                 app.Visible = false;
@@ -197,86 +203,88 @@ namespace TaskAssignment.Util
         /// <param name="tasks"></param>
         /// <param name="template"></param>
         /// <returns></returns>
-        public static string Export(IEnumerable<Task> tasks, string template) {
-            string filename = AppDomain.CurrentDomain.BaseDirectory + "\\工作安排-" + tasks.First().Date.ToString("yyyy-MM-dd") + ".xlsx";
+        public static void Export(IEnumerable<Task> tasks, string template, string filename) {
             if (File.Exists(filename)) {
                 File.Delete(filename);
             }
-            var app = new Application();
-            app.Visible = false;
-            try {
-                app.Workbooks.Open(template);
-                // Sheet 1 start as index 1
-                Worksheet activeSheet = app.Worksheets[1];
-                activeSheet.Activate();
-                // TODO:
-                // col index definition
-                const int ci_comment = 1;
-                const int ci_year = 2;
-                const int ci_month = 3;
-                const int ci_day = 4;
-                const int ci_location = 5;
-                const int ci_substation = 6;
-                const int ci_voltage = 7;
-                const int ci_type = 8;
-                const int ci_content = 9;
-                const int ci_leader = 10;
-                const int ci_member_s = 11;
-                const int ci_member_e = 14;
+            object o = new object();
+            lock (o) {
+                InitApplication();
+                try {
+                    app.Workbooks.Open(template);
+                    // Sheet 1 start as index 1
+                    Worksheet activeSheet = app.Worksheets[1];
+                    activeSheet.Activate();
+                    // TODO:
+                    // col index definition
+                    const int ci_comment = 1;
+                    const int ci_year = 2;
+                    const int ci_month = 3;
+                    const int ci_day = 4;
+                    const int ci_location = 5;
+                    const int ci_substation = 6;
+                    const int ci_voltage = 7;
+                    const int ci_type = 8;
+                    const int ci_content = 9;
+                    const int ci_leader = 10;
+                    const int ci_member_s = 11;
+                    const int ci_member_e = 14;
 
-                const int first_row = 2;
-                int ri = first_row, ci;
-                foreach (var i in tasks) {
-                    int year = i.Date.Year;
-                    int month = i.Date.Month;
-                    int day = i.Date.Day;
-                    string location = i.Substation.Location.LocationName;
-                    string substation = i.Substation.SubstationName;
-                    string voltage = i.Substation.Voltage + "kV";
-                    string type = i.TaskType.TypeName;
-                    string content = i.Content;
-                    string leader = i.Assigns.SingleOrDefault(l => l.IsLeader).Member.Name;
+                    const int first_row = 2;
+                    int ri = first_row, ci;
+                    foreach (var i in tasks) {
+                        int year = i.Date.Year;
+                        int month = i.Date.Month;
+                        int day = i.Date.Day;
+                        string location = i.Substation.Location.LocationName;
+                        string substation = i.Substation.SubstationName;
+                        string voltage = i.Substation.Voltage + "kV";
+                        string type = i.TaskType.TypeName;
+                        string content = i.Content;
+                        string leader = i.Assigns.SingleOrDefault(l => l.IsLeader).Member.Name;
 
-                    int memberCnt = i.Assigns.Where(m => !m.IsLeader).Count();
-                    string[] members = new string[memberCnt];
-                    int ptr = 0;
-                    foreach (var j in i.Assigns.Where(m => !m.IsLeader)) {
-                        members[ptr] = j.Member.Name;
-                        ptr++;
-                    }
-
-                    activeSheet.Cells[ri, ci_year] = year;
-                    activeSheet.Cells[ri, ci_month] = month;
-                    activeSheet.Cells[ri, ci_day] = day;
-                    activeSheet.Cells[ri, ci_location] = location;
-                    activeSheet.Cells[ri, ci_substation] = substation;
-                    activeSheet.Cells[ri, ci_voltage] = voltage;
-                    activeSheet.Cells[ri, ci_type] = type;
-                    activeSheet.Cells[ri, ci_content] = content;
-                    activeSheet.Cells[ri, ci_leader] = leader;
-                    ci = ci_member_s;
-                    for (ptr = 0; ptr < members.Length; ptr++) {
-                        if (ci > ci_member_e) {
-                            ci = ci_member_s;
-                            ri++;
-                            activeSheet.Rows[ri].Insert(XlInsertShiftDirection.xlShiftDown);
+                        int memberCnt = i.Assigns.Where(m => !m.IsLeader).Count();
+                        string[] members = new string[memberCnt];
+                        int ptr = 0;
+                        foreach (var j in i.Assigns.Where(m => !m.IsLeader)) {
+                            members[ptr] = j.Member.Name;
+                            ptr++;
                         }
-                        activeSheet.Cells[ri, ci] = members[ptr];
-                    }
-                    ri++;
-                    activeSheet.Rows[ri].Insert(XlInsertShiftDirection.xlShiftDown);
-                }
-                // Save changes
-                activeSheet.SaveAs(filename);
-            }
-            catch (Exception ex) {
 
+                        activeSheet.Cells[ri, ci_year] = year;
+                        activeSheet.Cells[ri, ci_month] = month;
+                        activeSheet.Cells[ri, ci_day] = day;
+                        activeSheet.Cells[ri, ci_location] = location;
+                        activeSheet.Cells[ri, ci_substation] = substation;
+                        activeSheet.Cells[ri, ci_voltage] = voltage;
+                        activeSheet.Cells[ri, ci_type] = type;
+                        activeSheet.Cells[ri, ci_content] = content;
+                        activeSheet.Cells[ri, ci_leader] = leader;
+                        ci = ci_member_s;
+                        for (ptr = 0; ptr < members.Length; ptr++) {
+                            if (ci > ci_member_e) {
+                                ci = ci_member_s;
+                                ri++;
+                                activeSheet.Rows[ri].Insert(XlInsertShiftDirection.xlShiftDown);
+                            }
+                            activeSheet.Cells[ri, ci] = members[ptr];
+                            ci++;
+                        }
+                        ri++;
+                        activeSheet.Rows[ri].Insert(XlInsertShiftDirection.xlShiftDown);
+                    }
+                    // Save changes
+                    activeSheet.SaveAs(filename);
+                }
+                catch (Exception ex) {
+
+                }
+                finally {
+                    app.Workbooks.Close();
+                    //app.Quit();
+                }
             }
-            finally {
-                app.Workbooks.Close();
-                app.Quit();
-            }
-            return "";
+           
         }
 
         public static object Import(string filename) {

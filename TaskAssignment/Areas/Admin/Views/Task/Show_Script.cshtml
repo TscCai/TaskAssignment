@@ -18,19 +18,24 @@
             'info': false
         });
 
-        //Date picker
+        // Date picker initiate
         $('.input-daterange input').each(function () {
            
             $(this).datepicker({
                 autoclose: true,
                 todayHighlight: true,
-                format: "yyyy-mm",
-                 
-                minViewMode: "months",
+                format: "yyyy-mm-dd",
                 language: "zh-CN"
             });
         });
 
+        // xlsx export
+        $("#btn_export").bind("click", function () {
+            // change the form action, then submit
+            $("#btn_export").parent().parent().prev().attr("action", "/Admin/Task/Export");
+            $("#btn_export").parent().parent().prev().submit();
+            $("#btn_export").parent().parent().prev().attr("action", "/Admin/Task/Show");
+        });
 
         var delModal = $("#delModal");
         delModal.on("show.bs.modal", function (e) {
@@ -68,7 +73,7 @@
                     $("#editModal select[name='MemberId']").val(data.MemberId);
                     $("#editModal select[name='MemberId']").trigger("change");
                 });
-        })
+        });
 
 
     });
