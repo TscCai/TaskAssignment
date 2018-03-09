@@ -13,3 +13,4 @@ The project is now on working.
 
 Absence info are written directly into Table "Attendance".
 Normal works are wriiten both in Table "Assign" and "Attendance".
+Known bugs: date picker not initiate in editModal at /Admin/Task/Show.cshtml
