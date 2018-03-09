@@ -12,22 +12,9 @@ namespace TaskAssignment.Controllers
     {
         // GET: Home
         public ActionResult Index() {
-            return View();
+            return Redirect("~/Admin/");
+            //return View();
         }
 
-        public ActionResult Index2() {
-            return View();
-        }
-
-        public ActionResult Temp() {
-            var ctx = new TaskAssignmentModel();
-
-            // All works in Jan.
-            IQueryable<Task> model = ctx.Tasks.Where(t => t.Date.Month == 1);
-            
-            // Works that haven't been assigned
-            //IQueryable<Task> model = ctx.Tasks.Where(t => t.Assigns.Count == 0);
-            return View(model);
-        }
     }
 }

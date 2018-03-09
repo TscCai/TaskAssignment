@@ -77,7 +77,7 @@
                 preMark($(this).attr("id").split('_')[1]);
             });
             $.getJSON(
-            location.protocol + "//" + location.host + "/Attendance/Details/" + $("#dpkr_month").val(),
+            location.protocol + "//" + location.host + location.pathname + "/Details/" + $("#dpkr_month").val(),
             function (data) {
                 for (var i = 0; i < data.length; i++) {
                     var att_id = [];

@@ -23,7 +23,7 @@ namespace TaskAssignment.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Show(DateRange model) {
             var ctx = new TaskAssignmentModel();
-            var list = ctx.Tasks.Where(t => t.Date >= model.Start && t.Date <= model.Finish).OrderBy(t=>t.Date);
+            var list = ctx.Tasks.Where(t => t.Date >= model.Start && t.Date <= model.Finish).OrderBy(t => t.Date);
             ViewBag.Start = model.Start.ToString("yyyy年MM月dd日");
             ViewBag.Finish = model.Finish.ToString("yyyy年MM月dd日");
             return View(list);
@@ -206,14 +206,20 @@ namespace TaskAssignment.Areas.Admin.Controllers
             var tasks = ctx.Tasks.Where(t => t.Date >= model.Start && t.Date <= model.Finish).OrderBy(t => t.Date);
             string template = Server.MapPath("~/Content/templates/template-task.xlsx");
             string filename = "";
-            if(model.Start == model.Finish) {
-                filename = model.Start.ToString("MM.dd")+ " 工作安排.xlsx";
+            if (model.Start == model.Finish) {
+                filename = model.Start.ToString("MM.dd") + " 工作安排.xlsx";
             }
             else {
-                filename = model.Start.ToString("MM.dd")+"-"+model.Finish.ToString("MM.dd")+" 工作安排.xlsx";
+                filename = model.Start.ToString("MM.dd") + "-" + model.Finish.ToString("MM.dd") + " 工作安排.xlsx";
             }
             string exported = Server.MapPath("~/Content/exported/" + filename);
-            ExcelHelper.Export(tasks,template,exported);
+            try {
+                ExcelHelper.Export(tasks, template, exported);
+            }
+            catch (Exception ex) {
+                Global.Logger.AppendLog(ex);
+            }
+
             if (System.IO.File.Exists(exported)) {
                 FilePathResult result = new FilePathResult(exported, ExcelHelper.XlsxContentType);
                 result.FileDownloadName = filename;

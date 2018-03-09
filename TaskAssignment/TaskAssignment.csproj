@@ -363,7 +363,9 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -396,6 +398,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\DateTimeEx.cs" />
     <Compile Include="Util\ExcelHelper.cs" />
+    <Compile Include="Util\SimpleLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -440,6 +443,9 @@
     <Content Include="Areas\Admin\Views\Attendance\EditModal.cshtml" />
     <Content Include="Areas\Admin\Views\Attendance\Absent_Script.cshtml" />
     <Content Include="Areas\Admin\Views\Attendance\_TypeList.cshtml" />
+    <Content Include="Areas\Admin\Views\Task\Error.cshtml" />
+    <Content Include="Content\templates\template-attendance.xlsx" />
+    <Content Include="Content\templates\template-task.xlsx" />
     <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Properties\PublishProfiles\Home-Server FTP.pubxml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -465,6 +471,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\exported\" />
+    <Folder Include="Content\logs\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

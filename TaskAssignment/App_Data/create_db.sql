@@ -9,7 +9,7 @@ Target Server Type    : SQLite
 Target Server Version : 30714
 File Encoding         : 65001
 
-Date: 2018-01-22 18:03:56
+Date: 2018-03-08 12:45:09
 */
 
 PRAGMA foreign_keys = OFF;
@@ -22,8 +22,50 @@ CREATE TABLE "Assign" (
 "Id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 "TaskId"  INTEGER NOT NULL,
 "MemberId"  INTEGER NOT NULL,
-CONSTRAINT "FK1" FOREIGN KEY ("TaskId") REFERENCES "Tasks" ("Id"),
-CONSTRAINT "FK2" FOREIGN KEY ("MemberId") REFERENCES "Members" ("Id")
+"IsLeader"  BIT NOT NULL DEFAULT 0,
+CONSTRAINT "FK1" FOREIGN KEY ("TaskId") REFERENCES "Tasks" ("Id") ON DELETE CASCADE,
+CONSTRAINT "FK2" FOREIGN KEY ("MemberId") REFERENCES "Members" ("Id") ON DELETE CASCADE
+);
+
+-- ----------------------------
+-- Table structure for Attendance
+-- ----------------------------
+DROP TABLE IF EXISTS "main"."Attendance";
+CREATE TABLE "Attendance" (
+"Id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"MemberId"  INTEGER NOT NULL,
+"TaskId"  INTEGER,
+"TypeId"  INTEGER NOT NULL,
+"StartDate"  DATETIME NOT NULL,
+"FinishDate"  DATETIME NOT NULL,
+"Comments"  TEXT(255),
+CONSTRAINT "FK1" FOREIGN KEY ("MemberId") REFERENCES "Members" ("Id") ON DELETE CASCADE,
+CONSTRAINT "FK2" FOREIGN KEY ("TypeId") REFERENCES "AttendanceType" ("Id") ON DELETE CASCADE,
+CONSTRAINT "FK3" FOREIGN KEY ("TaskId") REFERENCES "Tasks" ("Id") ON DELETE CASCADE
+);
+
+-- ----------------------------
+-- Table structure for AttendanceType
+-- ----------------------------
+DROP TABLE IF EXISTS "main"."AttendanceType";
+CREATE TABLE "AttendanceType" (
+"Id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"TypeName"  TEXT(10) NOT NULL DEFAULT 10,
+"IsAbsent"  BIT NOT NULL DEFAULT 0,
+"Alias"  TEXT(15) NOT NULL,
+"Symbol"  TEXT(4)
+);
+
+-- ----------------------------
+-- Table structure for Holidays
+-- ----------------------------
+DROP TABLE IF EXISTS "main"."Holidays";
+CREATE TABLE "Holidays" (
+"Id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+"Year"  INTEGER NOT NULL,
+"Holidays"  TEXT(255) NOT NULL,
+"ExtraWorkdays"  TEXT(255) NOT NULL,
+CONSTRAINT "Year_Uni" UNIQUE ("Year")
 );
 
 -- ----------------------------
@@ -62,7 +104,7 @@ CREATE TABLE "Substations" (
 "Voltage"  INTEGER NOT NULL,
 "SubstationName"  TEXT(10) NOT NULL,
 "LocationId"  INTEGER NOT NULL,
-CONSTRAINT "FK1" FOREIGN KEY ("LocationId") REFERENCES "Location" ("Id"),
+CONSTRAINT "FK1" FOREIGN KEY ("LocationId") REFERENCES "Location" ("Id") ON DELETE CASCADE,
 CONSTRAINT "NameUnique" UNIQUE ("SubstationName" ASC)
 );
 
@@ -87,9 +129,9 @@ CREATE TABLE "Tasks" (
 "TypeId"  INTEGER NOT NULL,
 "ConditionId"  INTEGER NOT NULL DEFAULT 3,
 "Visible"  Bit NOT NULL DEFAULT 1,
-CONSTRAINT "FK1" FOREIGN KEY ("TypeId") REFERENCES "TaskType" ("Id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-CONSTRAINT "FK2" FOREIGN KEY ("ConditionId") REFERENCES "TaskCondition" ("Id") ON DELETE RESTRICT ON UPDATE RESTRICT,
-CONSTRAINT "FK3" FOREIGN KEY ("SubstationId") REFERENCES "Substations" ("Id") ON DELETE RESTRICT ON UPDATE RESTRICT
+CONSTRAINT "FK1" FOREIGN KEY ("TypeId") REFERENCES "TaskType" ("Id") ON DELETE CASCADE ON UPDATE RESTRICT,
+CONSTRAINT "FK2" FOREIGN KEY ("ConditionId") REFERENCES "TaskCondition" ("Id") ON DELETE CASCADE ON UPDATE RESTRICT,
+CONSTRAINT "FK3" FOREIGN KEY ("SubstationId") REFERENCES "Substations" ("Id") ON DELETE CASCADE ON UPDATE RESTRICT
 );
 
 -- ----------------------------
@@ -100,3 +142,16 @@ CREATE TABLE "TaskType" (
 "Id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 "TypeName"  TEXT NOT NULL
 );
+
+-- ----------------------------
+-- Triggers structure for table Assign
+-- ----------------------------
+DROP TRIGGER IF EXISTS "main"."DelAttCascade_Trigg";
+DELIMITER ;;
+CREATE TRIGGER "DelAttCascade_Trigg" AFTER DELETE ON "Assign"
+BEGIN
+  /* Trigger action (UPDATE, INSERT, DELETE or SELECT statements) goes here. */
+	DELETE FROM Attendance WHERE TaskId=old.TaskId and MemberId=old.MemberId;
+END
+;;
+DELIMITER ;

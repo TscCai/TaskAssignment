@@ -18,6 +18,16 @@ namespace TaskAssignment.Util
                 app = new Application();
                 app.Visible = false;
             }
+            else {
+                try {
+                    var wbs = app.Workbooks;
+                }
+                catch (System.Runtime.InteropServices.COMException ex) {
+                    // in case of Excel process is killed accidently
+                    app = null;
+                    InitApplication();
+                }
+            }
         }
         
         /// <summary>
@@ -39,7 +49,6 @@ namespace TaskAssignment.Util
                 InitApplication();
                 Workbook wb = null;
                 Worksheet activeSheet = null;
-                app.Visible = false;
                 try {
                     wb = app.Workbooks.Open(template);
                     // Sheet 1 start as index 1
@@ -57,25 +66,26 @@ namespace TaskAssignment.Util
                     int[] pos_total_att = new int[] { 3, 33 };
                     int[] pos_absence = new int[] { 4, 34 };
 
-                    int ci_late = 34;
-                    int ci_personal = 35;
-                    int ci_sick = 36;
-                    int ci_comp = 37;
-                    int ci_annual = 38;
-                    int ci_wed = 39;
-                    int ci_absent = 40;
-                    int ci_maternity = 41;
-                    int ci_nurse = 42;
-                    int ci_injur = 43;
-                    int ci_train = 44;
-                    int ci_bussiness = 45;
-                    int ci_other = 46;
+                    //int ci_late = 34;
+                    //int ci_personal = 35;
+                    //int ci_sick = 36;
+                    //int ci_comp = 37;
+                    //int ci_annual = 38;
+                    //int ci_wed = 39;
+                    //int ci_absent = 40;
+                    //int ci_maternity = 41;
+                    //int ci_nurse = 42;
+                    //int ci_injur = 43;
+                    //int ci_train = 44;
+                    //int ci_bussiness = 45;
+                    //int ci_other = 46;
                     // ci: col index, ri: row index
                     int ci, ri;
 
                     activeSheet.Cells[pos_month[0], pos_month[1]] = attendanceTime.Month + "月";
-                    activeSheet.Cells[pos_timestamp[0], pos_timestamp[1]] = "报表上报时间：" + DateTime.Now.ToString("yyyy年MM月dd日");
 
+                    activeSheet.Cells[pos_timestamp[0], pos_timestamp[1]] = "报表上报时间：" + DateTime.Now.ToString("yyyy年MM月dd日");
+                    //activeSheet.Cells[pos_timestamp[0], pos_timestamp[1]] = "报表上报时间：" + GetTimestamp(attendanceTime,holidays,extraWorkdays).ToString("yyyy年MM月dd日");
                     // Delete the redundant date cols acorrding to attandanceTime
                     int lastDay = DateTime.DaysInMonth(attendanceTime.Year, attendanceTime.Month);
                     for (int i = maxDayOfMonth + date_offset; i > lastDay + date_offset; i--) {
@@ -186,7 +196,8 @@ namespace TaskAssignment.Util
                     activeSheet.SaveAs(filename);
                 }
                 catch (Exception ex) {
-                    // Log the exception
+                    // throw exception and log it upper
+                    throw ex;
                 }
                 finally {
                     app.Workbooks.Close();
@@ -277,7 +288,8 @@ namespace TaskAssignment.Util
                     activeSheet.SaveAs(filename);
                 }
                 catch (Exception ex) {
-
+                    // throw exception and log it upper
+                    throw ex;
                 }
                 finally {
                     app.Workbooks.Close();
@@ -302,6 +314,14 @@ namespace TaskAssignment.Util
             }
             else {
                 result = date.DayOfWeek != DayOfWeek.Sunday && date.DayOfWeek != DayOfWeek.Saturday;
+            }
+            return result;
+        }
+
+        static DateTime GetTimestamp(DateTime date, int[] holidays, int[] extraWorkdays) {
+            DateTime result = new DateTime(date.Year, date.Month + 1,1);
+            while (!IsWorkday(result, holidays, extraWorkdays)) {
+                result = result.AddDays(1);
             }
             return result;
         }

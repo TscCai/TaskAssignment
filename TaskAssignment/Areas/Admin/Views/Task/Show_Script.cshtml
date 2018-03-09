@@ -32,9 +32,9 @@
         // xlsx export
         $("#btn_export").bind("click", function () {
             // change the form action, then submit
-            $("#btn_export").parent().parent().prev().attr("action", "/Admin/Task/Export");
+            $("#btn_export").parent().parent().prev().attr("action", location.pathname.replace("Show","Export"));
             $("#btn_export").parent().parent().prev().submit();
-            $("#btn_export").parent().parent().prev().attr("action", "/Admin/Task/Show");
+            $("#btn_export").parent().parent().prev().attr("action", location.pathname);
         });
 
         var delModal = $("#delModal");

@@ -17,8 +17,8 @@ namespace TaskAssignment
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 // constraints:"",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+                defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional, area = "Admin" }
+            ).DataTokens.Add("area","Admin");
 
         }
     }
