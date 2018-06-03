@@ -292,3 +292,6 @@ __pycache__/
 /TaskAssignment/bower_components
 /TaskAssignment/Content/exported
 /TaskAssignment/Content/templates
+/TaskAssignment/Content/logs
+/TaskAssignment/App_Data
+/TaskAssignment.Tests/App_Data

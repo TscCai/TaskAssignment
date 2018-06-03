@@ -41,7 +41,9 @@ namespace TaskAssignment.Areas.Admin.Controllers
             string exported = Server.MapPath("~/Content/exported/" + "考勤记录-" + id.ToString("yyyy-MM-dd") + ".xlsx");
             var ctx = new TaskAssignmentModel();
             var members = ctx.Members.Where(m => m.IsInternal && m.Enable);
-            var record = ctx.Attendances.Where(att => att.StartDate.Month == id.Month && att.StartDate.Year == id.Year);
+            var record = ctx.Attendances.Where(att => att.StartDate.Month == id.Month && 
+                                                      att.StartDate.Year == id.Year && 
+                                                      att.Member.Enable);
             var absType = ctx.AttendanceTypes.Where(t => t.IsAbsent);
             var t_holidays = ctx.Holidays.SingleOrDefault(h => h.Year == id.Year);
             var thd = t_holidays.Holidays.Split(';').Where(h => h.StartsWith(id.ToString("MM") + "-")).ToArray();
