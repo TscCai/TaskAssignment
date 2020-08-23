@@ -243,5 +243,13 @@ namespace TaskAssignment.Areas.Admin.Controllers
             return View("_Recent", tasks);
         }
 
+        [ChildActionOnly]
+        public ActionResult AllTaskTypeList() {
+            var ctx = new TaskAssignmentModel();
+            var typeList=ctx.TaskTypes;
+
+            return View();
+        }
+
     }
 }

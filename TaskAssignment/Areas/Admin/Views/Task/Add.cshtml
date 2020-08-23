@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>工作负责人：</label>
                                     <div class="input-group">
@@ -108,9 +108,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>工作班成员：</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-users"></i>
+                                        </div>
+                                        <select name="MemberId" class="form-control select2" multiple="multiple" style="width: 100%;">
+                                            @Html.Action("AllList", "Member")
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>管理人员：</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-users"></i>
